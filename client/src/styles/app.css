@@ -1,2 +1,3 @@
-@import './reset.css';
-@import './transition.css'
+@import "./reset.css";
+@import "./transition.css";
+@import "react-datepicker/dist/react-datepicker.css";

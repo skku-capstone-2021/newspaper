@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { Calendar } from "@/assets";
 
 export const SidebarWrapper = styled.div`
   flex: 12%;
@@ -16,10 +17,10 @@ export const Menu = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin: 6rem;
+  margin: 6.2rem;
 
   > * {
-    margin: 2.5rem;
+    margin: 2.4rem;
 
     &:hover {
       img:not(.selected) {
@@ -48,4 +49,30 @@ export const Icon = styled.img<{
     }`};
 
   transform: ${({ current }) => `${current && `scale(1.2)`}`};
+`;
+
+export const CalendarWrapper = styled.div`
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  font-weight: 600;
+  justify-content: center;
+  align-items: center;
+  width: 5rem;
+  height: 5rem;
+  background: center / cover no-repeat url(${Calendar});
+
+  input {
+    display: none;
+  }
+`;
+
+export const DateLabel = styled.label`
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  font-size: 1.2rem;
+  justify-content: center;
+  margin-top: 2.8rem;
 `;

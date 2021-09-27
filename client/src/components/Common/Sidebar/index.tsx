@@ -1,10 +1,18 @@
-import { FC } from "react";
+import { FC, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Analyze, Calendar, Dashboard, Mypage, News, Logo } from "@/assets";
-import { Icon, Menu, SidebarWrapper } from "./index.style";
+import DatePicker from "react-datepicker";
+import { Analyze, Dashboard, Mypage, News, Logo } from "@/assets";
+import {
+  Icon,
+  Menu,
+  SidebarWrapper,
+  CalendarWrapper,
+  DateLabel,
+} from "./index.style";
 
 const Sidebar: FC = () => {
   const { pathname } = useLocation();
+  const [date, setDate] = useState<Date>(new Date());
 
   return (
     <SidebarWrapper>
@@ -16,8 +24,8 @@ const Sidebar: FC = () => {
           <Icon
             src={Dashboard}
             alt="dashboard"
-            width="2.5"
-            height="2.5"
+            width="2.3"
+            height="2.3"
             className={pathname === "/" ? "selected" : ""}
             current={pathname === "/"}
           />
@@ -26,8 +34,8 @@ const Sidebar: FC = () => {
           <Icon
             src={News}
             alt="news"
-            width="2.5"
-            height="2.5"
+            width="2.3"
+            height="2.3"
             className={pathname === "/news" ? "selected" : ""}
             current={pathname === "/news"}
           />
@@ -36,8 +44,8 @@ const Sidebar: FC = () => {
           <Icon
             src={Analyze}
             alt="analyze"
-            width="2.5"
-            height="2.5"
+            width="2.3"
+            height="2.3"
             className={pathname === "/analyze" ? "selected" : ""}
             current={pathname === "/analyze"}
           />
@@ -46,22 +54,21 @@ const Sidebar: FC = () => {
           <Icon
             src={Mypage}
             alt="mypage"
-            width="2.5"
-            height="2.5"
+            width="2.3"
+            height="2.3"
             className={pathname === "/mypage" ? "selected" : ""}
             current={pathname === "/mypage"}
           />
         </Link>
       </Menu>
-      <div>
-        <Icon
-          src={Calendar}
-          alt="calendar"
-          width="4"
-          height="4"
-          current={true}
+      <CalendarWrapper>
+        <DateLabel htmlFor="date-pick">{date.getDate()}</DateLabel>
+        <DatePicker
+          id="date-pick"
+          selected={date}
+          onChange={(d: Date) => setDate(d)}
         />
-      </div>
+      </CalendarWrapper>
     </SidebarWrapper>
   );
 };
