@@ -9,15 +9,6 @@ export const SidebarWrapper = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-
-  > :first-child {
-  }
-
-  > :nth-child(2) {
-  }
-
-  > :last-child {
-  }
 `;
 
 export const Menu = styled.div`
@@ -25,20 +16,36 @@ export const Menu = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin: 7rem;
+  margin: 6rem;
 
   > * {
     margin: 2.5rem;
 
     &:hover {
-      filter: invert(45%) sepia(32%) saturate(2122%) hue-rotate(217deg)
-        brightness(99%) contrast(94%);
+      img:not(.selected) {
+        filter: invert(45%) sepia(32%) saturate(2122%) hue-rotate(217deg)
+          brightness(99%) contrast(94%);
+        transition: transform 300ms;
+        transform: scale(1.2);
+      }
     }
   }
 `;
 
-export const Icon = styled.img<{ width?: string; height?: string }>`
+export const Icon = styled.img<{
+  width?: string;
+  height?: string;
+  current?: boolean;
+}>`
   cursor: pointer;
   width: ${({ width }) => `${width}rem` || "100%"};
   height: ${({ height }) => `${height}rem` || "100%"};
+  filter: ${({ current }) =>
+    `${
+      current &&
+      `invert(45%) sepia(32%) saturate(2122%) hue-rotate(217deg)
+        brightness(99%) contrast(94%)`
+    }`};
+
+  transform: ${({ current }) => `${current && `scale(1.2)`}`};
 `;

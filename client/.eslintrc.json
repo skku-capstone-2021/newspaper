@@ -36,6 +36,7 @@
     "@typescript-eslint/explicit-module-boundary-types": "off",
     "react/button-has-type": "off",
     "prefer-const" : "off",
+    "react/jsx-boolean-value" : "off",
     "react/jsx-filename-extension": [
       1,
       { "extensions": [".js", ".jsx", ".ts", ".tsx"] }

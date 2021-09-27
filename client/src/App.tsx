@@ -3,7 +3,6 @@ import styled from "styled-components";
 import { BrowserRouter } from "react-router-dom";
 import Router from "./Router";
 import Sidebar from "@/components/Common/Sidebar";
-
 import "@/styles/app.css";
 
 const Main = styled.div`
