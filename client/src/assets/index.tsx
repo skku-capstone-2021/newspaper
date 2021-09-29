@@ -6,5 +6,19 @@ import Mypage from "./mypage.svg";
 import News from "./news.svg";
 import Logo from "./logo.svg";
 import Search from "./search.svg";
+import Good from "./good.svg";
+import Soso from "./soso.svg";
+import Bad from "./bad.svg";
 
-export { Analyze, Calendar, Dashboard, Mypage, News, Logo, Search };
+export {
+  Analyze,
+  Calendar,
+  Dashboard,
+  Mypage,
+  News,
+  Logo,
+  Search,
+  Good,
+  Soso,
+  Bad,
+};

@@ -6,18 +6,29 @@ const Spin = keyframes`
     100% { transform: rotate(360deg); }
 `;
 
+const SpinnerWrapper = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
 const Spinner = styled.div`
   animation: ${Spin} 2s linear infinite;
-  margin: 0 auto;
-  width: 100px;
-  height: 100px;
+  width: 7rem;
+  height: 7rem;
   border: 15px solid rgba(163, 151, 198, 0.2);
   border-top: 15px solid rgba(163, 151, 198, 1);
   border-radius: 50%;
 `;
 
 const Loading: FC = () => {
-  return <Spinner />;
+  return (
+    <SpinnerWrapper>
+      <Spinner />
+    </SpinnerWrapper>
+  );
 };
 
 export default Loading;

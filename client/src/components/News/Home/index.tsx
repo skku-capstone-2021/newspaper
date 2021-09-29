@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useState, useCallback, useEffect } from "react";
 import {
   Icon,
   TitleWrapper,
@@ -11,6 +11,14 @@ import {
 import { Search } from "@/assets";
 import NewsItem from "@/components/News/Home/NewsItem";
 import NewsModal from "@/components/Common/NewsModal";
+import Loading from "@/components/Common/Loading";
+
+interface News {
+  idx: number;
+  title: string;
+  company: string;
+  img: string;
+}
 
 const MOCK_NEWS = [
   {
@@ -51,29 +59,83 @@ const MOCK_NEWS = [
 ];
 
 const Home: FC = () => {
+  const [MainNews, setMainNews] = useState<News[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [isNewsOpen, SetIsNewsOpen] = useState<boolean>(true);
+  const [currentNewsIdx, setCurrentNewsIdx] = useState<number>(0);
+  const handleNewsClick = useCallback(
+    (item: News) => {
+      SetIsNewsOpen(true);
+      setCurrentNewsIdx(item.idx);
+    },
+    [isNewsOpen, currentNewsIdx]
+  );
+
+  useEffect(() => {
+    setLoading(true);
+    setTimeout(() => {
+      setMainNews(MOCK_NEWS);
+      setLoading(false);
+    }, 0);
+  }, []);
+
+  const removeModal = () => {
+    SetIsNewsOpen(false);
+  };
+
   return (
     <>
-      <TitleWrapper>
-        <Title>
-          <span>Main </span>
-          <span> news</span>
-        </Title>
-        <Icon src={Search} alt="search" width="3.5" height="3.5" />
-      </TitleWrapper>
-      <NewsDisplay>
-        <Left>
-          <NewsItem item={MOCK_NEWS[0]} size="lg" />
-          <Bottom>
-            <NewsItem item={MOCK_NEWS[1]} size="sm" />
-            <NewsItem item={MOCK_NEWS[2]} size="sm" />
-          </Bottom>
-        </Left>
-        <Right>
-          <NewsItem item={MOCK_NEWS[3]} size="sm" />
-          <NewsItem item={MOCK_NEWS[4]} size="sm" />
-        </Right>
-      </NewsDisplay>
-      <NewsModal idx={1} visible={true} />
+      {loading ? (
+        <Loading />
+      ) : (
+        <>
+          <TitleWrapper>
+            <Title>
+              <span>Main </span>
+              <span> news</span>
+            </Title>
+            <Icon src={Search} alt="search" width="3.5" height="3.5" />
+          </TitleWrapper>
+          <NewsDisplay>
+            <Left>
+              <NewsItem
+                handleNewsClick={handleNewsClick}
+                item={MOCK_NEWS[0]}
+                size="lg"
+              />
+              <Bottom>
+                <NewsItem
+                  handleNewsClick={handleNewsClick}
+                  item={MOCK_NEWS[1]}
+                  size="sm"
+                />
+                <NewsItem
+                  handleNewsClick={handleNewsClick}
+                  item={MOCK_NEWS[2]}
+                  size="sm"
+                />
+              </Bottom>
+            </Left>
+            <Right>
+              <NewsItem
+                handleNewsClick={handleNewsClick}
+                item={MOCK_NEWS[3]}
+                size="sm"
+              />
+              <NewsItem
+                handleNewsClick={handleNewsClick}
+                item={MOCK_NEWS[4]}
+                size="sm"
+              />
+            </Right>
+          </NewsDisplay>
+          <NewsModal
+            idx={currentNewsIdx}
+            removeModal={removeModal}
+            visible={isNewsOpen}
+          />
+        </>
+      )}
     </>
   );
 };

@@ -28,12 +28,12 @@ export const ModalInner = styled.div`
   box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.5);
   background-color: #fff;
   border-radius: 10px;
-  width: 49rem;
+  width: 47rem;
   height: 53rem;
   top: 50%;
   transform: translateY(-50%);
   margin: 0 auto;
-  padding: 2rem 1rem;
+  padding: 3rem 2.5rem;
   overflow-y: scroll;
   -ms-overflow-style: none;
   &::-webkit-scrollbar {
