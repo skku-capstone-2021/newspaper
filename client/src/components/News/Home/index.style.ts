@@ -30,16 +30,6 @@ export const Title = styled.div`
   }
 `;
 
-// export const Icon = styled.img<{
-//   width?: string;
-//   height?: string;
-//   current?: boolean;
-// }>`
-//   cursor: pointer;
-//   width: ${({ width }) => `${width}rem` || "100%"};
-//   height: ${({ height }) => `${height}rem` || "100%"};
-//   filter: ${({ current }) =>
-
 export const NewsDisplay = styled.div`
   display: flex;
   justify-content: center;

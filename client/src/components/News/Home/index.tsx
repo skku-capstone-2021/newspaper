@@ -10,6 +10,7 @@ import {
 } from "./index.style";
 import { Search } from "@/assets";
 import NewsItem from "@/components/News/Home/NewsItem";
+import NewsModal from "@/components/Common/NewsModal";
 
 const MOCK_NEWS = [
   {
@@ -72,6 +73,7 @@ const Home: FC = () => {
           <NewsItem item={MOCK_NEWS[4]} size="sm" />
         </Right>
       </NewsDisplay>
+      <NewsModal idx={1} visible={true} />
     </>
   );
 };
