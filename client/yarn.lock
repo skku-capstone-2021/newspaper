@@ -3388,6 +3388,11 @@ raw-body@2.4.0:
     iconv-lite "0.4.24"
     unpipe "1.0.0"
 
+react-card-flip@^1.1.3:
+  version "1.1.3"
+  resolved "https://registry.yarnpkg.com/react-card-flip/-/react-card-flip-1.1.3.tgz#b69fae288d7452adbdca9ce83660891d189b39b6"
+  integrity sha512-hTytY1vuoTHFeYJTGuxk8YPjjxJDAGRC9ec5dPgWL71p+pQUYDuPtdzHTnBszp2XRy4w+HSdIoYYqXLIPnkCEA==
+
 react-datepicker@^4.2.1:
   version "4.2.1"
   resolved "https://registry.yarnpkg.com/react-datepicker/-/react-datepicker-4.2.1.tgz#72caf5055bc7c4eb0279c1f6d7624ded053edc4c"

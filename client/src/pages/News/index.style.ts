@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const Wrapper = styled.div`
+export const NewsWrapper = styled.div`
   height: 100vh;
-  background-color: yellow;
+  padding: 4.7rem 8rem;
 `;

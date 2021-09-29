@@ -5,11 +5,13 @@ export const SidebarWrapper = styled.div`
   flex: 12%;
   height: 100vh;
   background-color: #ffffff;
-  min-width: 11rem;
+  width: 14rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  z-index: 1;
+  box-shadow: 0 19px 7px rgba(0, 0, 0, 0.3), 0 5px 5px rgba(0, 0, 0, 0.2);
 `;
 
 export const Menu = styled.div`
