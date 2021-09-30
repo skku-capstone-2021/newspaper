@@ -12,6 +12,7 @@ import { Search } from "@/assets";
 import NewsItem from "@/components/News/Home/NewsItem";
 import NewsModal from "@/components/Common/NewsModal";
 import Loading from "@/components/Common/Loading";
+import Sidebar from "@/components/News/Home/Sidebar";
 
 interface News {
   idx: number;
@@ -61,8 +62,9 @@ const MOCK_NEWS = [
 const Home: FC = () => {
   const [MainNews, setMainNews] = useState<News[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
-  const [isNewsOpen, SetIsNewsOpen] = useState<boolean>(true);
+  const [isNewsOpen, SetIsNewsOpen] = useState<boolean>(false);
   const [currentNewsIdx, setCurrentNewsIdx] = useState<number>(0);
+  const [sideOpen, setSideOpen] = useState<boolean>(false);
   const handleNewsClick = useCallback(
     (item: News) => {
       SetIsNewsOpen(true);
@@ -76,12 +78,16 @@ const Home: FC = () => {
     setTimeout(() => {
       setMainNews(MOCK_NEWS);
       setLoading(false);
-    }, 0);
+    }, 1500);
   }, []);
 
   const removeModal = () => {
     SetIsNewsOpen(false);
   };
+
+  const closeSideBar = useCallback(() => {
+    setSideOpen(false);
+  }, [sideOpen]);
 
   return (
     <>
@@ -94,7 +100,15 @@ const Home: FC = () => {
               <span>Main </span>
               <span> news</span>
             </Title>
-            <Icon src={Search} alt="search" width="3.5" height="3.5" />
+            <Icon
+              src={Search}
+              onClick={() => {
+                setSideOpen(true);
+              }}
+              alt="search"
+              width="3.5"
+              height="3.5"
+            />
           </TitleWrapper>
           <NewsDisplay>
             <Left>
@@ -134,6 +148,13 @@ const Home: FC = () => {
             removeModal={removeModal}
             visible={isNewsOpen}
           />
+          <Sidebar width={500} sideOpen={sideOpen} sideBarClose={closeSideBar}>
+            <h1>Nav Item</h1>
+            <h1>Nav Item</h1>
+            <h1>Nav Item</h1>
+            <h1>Nav Item</h1>
+            <h1>Nav Item</h1>
+          </Sidebar>
         </>
       )}
     </>

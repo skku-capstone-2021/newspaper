@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useState } from "react";
 import styled from "styled-components";
 import { Button } from "@material-ui/core";
 import { Good } from "@/assets";
@@ -95,9 +95,25 @@ const MainImg = styled.img`
   min-height: 40vh;
 `;
 
+const ContentWrapper = styled.div`
+  margin-top: 1rem;
+`;
+
+const Content = styled.div`
+  font-size: 1.1rem;
+`;
+
+const More = styled.div`
+  cursor: pointer;
+  margin-top: 1rem;
+  color: #999999;
+`;
+
 const NewsContent: FC<Props> = ({ newsItem }) => {
+  const [isEntire, setIsEntire] = useState<boolean>(false);
+
   return (
-    <div>
+    <>
       <Header>
         <Flex>
           <div>
@@ -130,8 +146,23 @@ const NewsContent: FC<Props> = ({ newsItem }) => {
       </Header>
       <Horizon />
       <MainImg src={newsItem.img} />
-      <div>글 더보기</div>
-    </div>
+      <ContentWrapper>
+        {!isEntire ? (
+          <div>
+            <Content>{newsItem.shortContent}</Content>
+            <More
+              onClick={() => {
+                setIsEntire(true);
+              }}
+            >
+              show full article
+            </More>
+          </div>
+        ) : (
+          <Content>{newsItem.content}</Content>
+        )}
+      </ContentWrapper>
+    </>
   );
 };
 
