@@ -37,6 +37,7 @@ const SearchSidebar: FC<Props> = ({
   }, [sideOpen]);
 
   const sidebarRef = useRef(null);
+
   useOnClickOutside(sidebarRef, () => {
     if (xPosition === -width) {
       toggleMenu();

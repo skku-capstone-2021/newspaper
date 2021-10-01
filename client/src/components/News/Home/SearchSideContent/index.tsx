@@ -1,37 +1,22 @@
 import { FC, useState, useEffect } from "react";
-import styled from "styled-components";
 import { TextField, Button, InputLabel } from "@material-ui/core";
 import Slider from "react-slick";
 import TagsInput from "react-tagsinput";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import "react-tagsinput/react-tagsinput.css";
-import Loading from "@/components/Common/Loading";
+import {
+  ContentWrapper,
+  SlideWrapper,
+  SlideItem,
+  ButtonGroup,
+} from "./index.style";
 
-const ContentWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 3rem;
-`;
-const SlideWrapper = styled.div`
-  margin-top: 1rem;
-  padding: 0 1.5rem;
-`;
+interface Props {
+  sideBarClose: () => void;
+}
 
-const SlideItem = styled.div`
-  height: 100%;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-`;
-
-const ButtonGroup = styled.div`
-  display: flex;
-  gap: 1rem;
-  justify-content: flex-end;
-`;
-
-const SearchSideContent: FC = () => {
+const SearchSideContent: FC<Props> = ({ sideBarClose }) => {
   const [loadNewspaper, setLoadNewspaper] = useState<string[]>([]);
   const [loadCategory, setLoadCategory] = useState<string[]>([]);
 
@@ -55,11 +40,18 @@ const SearchSideContent: FC = () => {
   };
 
   const toggleNewspaper = (selected: string) => {
-    const idx = newspaper.find((item) => item === selected);
-    if (idx) {
+    if (newspaper.find((item) => item === selected)) {
       setNewspaper(newspaper.filter((item) => item !== selected));
     } else {
       setNewspaper([...newspaper, selected]);
+    }
+  };
+
+  const toggleCategory = (selected: string) => {
+    if (category.find((item) => item === selected)) {
+      setCategory(category.filter((item) => item !== selected));
+    } else {
+      setCategory([...category, selected]);
     }
   };
 
@@ -106,6 +98,20 @@ const SearchSideContent: FC = () => {
     };
   }, []);
 
+  const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setTitle(e.target.value);
+  };
+
+  const handleStartChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setStartDate(new Date(e.target.value));
+  };
+
+  const handleEndChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setEndDate(new Date(e.target.value));
+  };
+
+  const handleSearch = () => {};
+
   return (
     <ContentWrapper>
       <>
@@ -115,6 +121,7 @@ const SearchSideContent: FC = () => {
           required
           placeholder="Search Title"
           variant="outlined"
+          onChange={handleTitleChange}
         />
         <TextField
           label="start"
@@ -122,6 +129,7 @@ const SearchSideContent: FC = () => {
           InputLabelProps={{
             shrink: true,
           }}
+          onChange={handleStartChange}
         />
         <TextField
           label="end"
@@ -129,6 +137,7 @@ const SearchSideContent: FC = () => {
           InputLabelProps={{
             shrink: true,
           }}
+          onChange={handleEndChange}
         />
         <div>
           <InputLabel shrink>newspaper</InputLabel>
@@ -157,7 +166,17 @@ const SearchSideContent: FC = () => {
           <SlideWrapper>
             <Slider {...settings}>
               {loadCategory.map((item, index) => (
-                <SlideItem key={index}>{item}</SlideItem>
+                <SlideItem
+                  className={
+                    category.includes(item) ? "slide-selected" : "slide-default"
+                  }
+                  key={index}
+                  onClick={() => {
+                    toggleCategory(item);
+                  }}
+                >
+                  {item}
+                </SlideItem>
               ))}
             </Slider>
           </SlideWrapper>
@@ -173,10 +192,23 @@ const SearchSideContent: FC = () => {
           />
         </div>
         <ButtonGroup>
-          <Button size="large" variant="outlined">
+          <Button
+            size="large"
+            variant="outlined"
+            onClick={() => {
+              sideBarClose();
+            }}
+          >
             cancle
           </Button>
-          <Button size="large" variant="outlined" color="primary">
+          <Button
+            size="large"
+            variant="outlined"
+            color="primary"
+            onClick={() => {
+              handleSearch();
+            }}
+          >
             search
           </Button>
         </ButtonGroup>

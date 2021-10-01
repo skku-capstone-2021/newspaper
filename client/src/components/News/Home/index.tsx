@@ -1,4 +1,5 @@
 import { FC, useState, useCallback, useEffect } from "react";
+import { CompassCalibrationOutlined } from "@material-ui/icons";
 import {
   Icon,
   TitleWrapper,
@@ -87,7 +88,7 @@ const Home: FC = () => {
   };
 
   const closeSideBar = useCallback(() => {
-    setSideOpen(false);
+    setSideOpen(!sideOpen);
   }, [sideOpen]);
 
   return (
@@ -104,7 +105,7 @@ const Home: FC = () => {
             <Icon
               src={Search}
               onClick={() => {
-                setSideOpen(true);
+                setSideOpen(!sideOpen);
               }}
               alt="search"
               width="3.5"
@@ -154,7 +155,7 @@ const Home: FC = () => {
             sideOpen={sideOpen}
             sideBarClose={closeSideBar}
           >
-            <SearchSideContent />
+            <SearchSideContent sideBarClose={closeSideBar} />
           </SearchSidebar>
         </>
       )}

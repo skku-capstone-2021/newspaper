@@ -19,12 +19,12 @@
 }
 
 .slick-slide  > div:hover{
-    background-color:#9B76FD;
+    background-color:#bea8f9;
     transition: all 0.3s;
 }
 
 .slide-selected{
-    background-color:#9B76FD;
+    background-color:#bea8f9;
 
 }
 
