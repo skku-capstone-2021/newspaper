@@ -12,7 +12,8 @@ import { Search } from "@/assets";
 import NewsItem from "@/components/News/Home/NewsItem";
 import NewsModal from "@/components/Common/NewsModal";
 import Loading from "@/components/Common/Loading";
-import Sidebar from "@/components/News/Home/Sidebar";
+import SearchSidebar from "@/components/News/Home/SearchSidebar";
+import SearchSideContent from "./SearchSideContent";
 
 interface News {
   idx: number;
@@ -148,13 +149,13 @@ const Home: FC = () => {
             removeModal={removeModal}
             visible={isNewsOpen}
           />
-          <Sidebar width={500} sideOpen={sideOpen} sideBarClose={closeSideBar}>
-            <h1>Nav Item</h1>
-            <h1>Nav Item</h1>
-            <h1>Nav Item</h1>
-            <h1>Nav Item</h1>
-            <h1>Nav Item</h1>
-          </Sidebar>
+          <SearchSidebar
+            width={500}
+            sideOpen={sideOpen}
+            sideBarClose={closeSideBar}
+          >
+            <SearchSideContent />
+          </SearchSidebar>
         </>
       )}
     </>

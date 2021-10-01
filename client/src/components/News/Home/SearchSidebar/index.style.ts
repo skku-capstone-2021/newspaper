@@ -17,6 +17,11 @@ export const SidebarWrapper = styled.div<{
   transition: 0.8s ease;
   z-index: 999;
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+  -ms-overflow-style: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  overflow-y: scroll;
 `;
 
 export const ToggleButton = styled.button`
@@ -32,4 +37,6 @@ export const ToggleButton = styled.button`
   border-left: 0;
   cursor: pointer;
 `;
-export const Content = styled.div``;
+export const Content = styled.div`
+  padding: 6rem 1.5rem;
+`;

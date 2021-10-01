@@ -1,5 +1,6 @@
-import { FC, ReactNode, useEffect, useState } from "react";
+import { FC, ReactNode, useEffect, useState, useRef } from "react";
 import { SidebarWrapper, ToggleButton, Content } from "./index.style";
+import useOnClickOutside from "@/lib/hooks/useOnClickOutside";
 
 interface Props {
   width: number;
@@ -8,7 +9,12 @@ interface Props {
   sideBarClose: () => void;
 }
 
-const Sidebar: FC<Props> = ({ width, children, sideOpen, sideBarClose }) => {
+const SearchSidebar: FC<Props> = ({
+  width,
+  children,
+  sideOpen,
+  sideBarClose,
+}) => {
   const [xPosition, setX] = useState<number>(0);
 
   const toggleMenu = () => {
@@ -30,8 +36,20 @@ const Sidebar: FC<Props> = ({ width, children, sideOpen, sideBarClose }) => {
     }
   }, [sideOpen]);
 
+  const sidebarRef = useRef(null);
+  useOnClickOutside(sidebarRef, () => {
+    if (xPosition === -width) {
+      toggleMenu();
+    }
+  });
+
   return (
-    <SidebarWrapper width={width} xPosition={xPosition} style={{}}>
+    <SidebarWrapper
+      ref={sidebarRef}
+      width={width}
+      xPosition={xPosition}
+      style={{}}
+    >
       <ToggleButton
         onClick={() => toggleMenu()}
         style={{
@@ -43,4 +61,4 @@ const Sidebar: FC<Props> = ({ width, children, sideOpen, sideBarClose }) => {
   );
 };
 
-export default Sidebar;
+export default SearchSidebar;

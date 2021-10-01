@@ -8,6 +8,13 @@ export const Icon = styled.img<{
   cursor: pointer;
   width: ${({ width }) => `${width}rem` || "100%"};
   height: ${({ height }) => `${height}rem` || "100%"};
+
+  &:hover {
+    filter: invert(45%) sepia(32%) saturate(2122%) hue-rotate(217deg)
+      brightness(99%) contrast(94%);
+    transition: transform 300ms;
+    transform: scale(1.1);
+  }
 `;
 
 export const TitleWrapper = styled.div`
