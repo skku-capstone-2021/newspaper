@@ -1,8 +1,9 @@
-import { FC, useEffect, useState } from "react";
+import { FC, useEffect, useState, useCallback } from "react";
 import { Pagination } from "@material-ui/lab";
 import Loading from "@/components/Common/Loading";
 import { TitleWrapper, Title, NewsWrapper, PageWrapper } from "./index.style";
 import NewsRows from "@/components/Common/NewsRow";
+import NewsModal from "@/components/Common/NewsModal";
 
 interface Props {
   searchData: any;
@@ -52,10 +53,14 @@ const Search: FC<Props> = ({ searchData }) => {
   const [per, setPer] = useState<number>(4);
   const [total, setTotal] = useState<number>(100);
   const [loading, setLoading] = useState<boolean>(false);
+  const [isNewsOpen, SetIsNewsOpen] = useState<boolean>(false);
+  const [currentNewsIdx, setCurrentNewsIdx] = useState<number>(0);
 
   const getData = async () => {
     return new Promise((resolve) => {
-      resolve(MOCK_NEWS);
+      setTimeout(() => {
+        resolve(MOCK_NEWS);
+      }, 1500);
     });
   };
 
@@ -74,29 +79,53 @@ const Search: FC<Props> = ({ searchData }) => {
     setPage(v);
   };
 
+  const handleNewsClick = useCallback(() => {
+    SetIsNewsOpen(true);
+    setCurrentNewsIdx(1);
+  }, [isNewsOpen, currentNewsIdx]);
+
+  const removeModal = () => {
+    SetIsNewsOpen(false);
+  };
+
   return (
     <>
-      <TitleWrapper>
-        <Title>
-          <span>Search </span>
-          <span> results</span>
-        </Title>
-        <div>total: {total}</div>
-      </TitleWrapper>
-      <NewsWrapper>
-        {news.map((item, index) => (
-          <NewsRows key={index} news={item} />
-        ))}
-      </NewsWrapper>
-      <PageWrapper>
-        <Pagination
-          count={Math.ceil(total / per)}
-          color="primary"
-          variant="outlined"
-          shape="rounded"
-          onChange={handlePageChange}
-        />
-      </PageWrapper>
+      {loading ? (
+        <Loading />
+      ) : (
+        <>
+          <TitleWrapper>
+            <Title>
+              <span>Search </span>
+              <span> results</span>
+            </Title>
+            <div>total: {total}</div>
+          </TitleWrapper>
+          <NewsWrapper>
+            {news.map((item, index) => (
+              <NewsRows
+                handleNewsClick={handleNewsClick}
+                key={index}
+                news={item}
+              />
+            ))}
+          </NewsWrapper>
+          <PageWrapper>
+            <Pagination
+              count={Math.ceil(total / per)}
+              color="primary"
+              variant="outlined"
+              shape="rounded"
+              onChange={handlePageChange}
+            />
+          </PageWrapper>
+          <NewsModal
+            idx={currentNewsIdx}
+            removeModal={removeModal}
+            visible={isNewsOpen}
+          />
+        </>
+      )}
     </>
   );
 };

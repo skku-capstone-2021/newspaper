@@ -4,7 +4,7 @@ import Home from "@/components/News/Home";
 import Search from "@/components/News/Search";
 
 const News: FC = () => {
-  const [mode, setMode] = useState<"home" | "search">("search");
+  const [mode, setMode] = useState<"home" | "search">("home");
   const [searchData, setSearchData] = useState<any>({});
 
   const changeMode = (searchData: any) => {

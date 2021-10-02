@@ -9,6 +9,7 @@ interface Props {
     img: string;
     content: string;
   };
+  handleNewsClick: () => void;
 }
 
 const NewsWrapper = styled.div`
@@ -70,10 +71,14 @@ const Line = styled.div`
   }
 `;
 
-const NewsRows: FC<Props> = ({ news }) => {
+const NewsRows: FC<Props> = ({ news, handleNewsClick }) => {
   return (
     <>
-      <NewsWrapper>
+      <NewsWrapper
+        onClick={() => {
+          handleNewsClick();
+        }}
+      >
         <NewsImg src={news.img} alt="news" />
         <Content>
           <Title>{news.title}</Title>

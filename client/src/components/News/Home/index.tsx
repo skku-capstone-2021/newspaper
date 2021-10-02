@@ -1,5 +1,4 @@
 import { FC, useState, useCallback, useEffect } from "react";
-import { CompassCalibrationOutlined } from "@material-ui/icons";
 import {
   Icon,
   TitleWrapper,
