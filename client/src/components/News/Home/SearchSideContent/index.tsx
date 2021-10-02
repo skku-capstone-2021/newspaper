@@ -14,15 +14,25 @@ import {
 
 interface Props {
   sideBarClose: () => void;
+  changeMode: (searchData: any) => void;
 }
 
-const SearchSideContent: FC<Props> = ({ sideBarClose }) => {
+const getToday = () => {
+  let date = new Date();
+  let year = date.getFullYear();
+  let month = `0${1 + date.getMonth()}`.slice(-2);
+  let day = `0${date.getDate()}`.slice(-2);
+
+  return `${year}-${month}-${day}`;
+};
+
+const SearchSideContent: FC<Props> = ({ sideBarClose, changeMode }) => {
   const [loadNewspaper, setLoadNewspaper] = useState<string[]>([]);
   const [loadCategory, setLoadCategory] = useState<string[]>([]);
 
   const [title, setTitle] = useState<string>("");
-  const [startDate, setStartDate] = useState<Date>(new Date());
-  const [endDate, setEndDate] = useState<Date>(new Date());
+  const [startDate, setStartDate] = useState<string>(getToday());
+  const [endDate, setEndDate] = useState<string>(getToday());
   const [newspaper, setNewspaper] = useState<string[]>([]);
   const [category, setCategory] = useState<string[]>([]);
   const [keywords, setKeywords] = useState<string>("");
@@ -103,14 +113,31 @@ const SearchSideContent: FC<Props> = ({ sideBarClose }) => {
   };
 
   const handleStartChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setStartDate(new Date(e.target.value));
+    setStartDate(e.target.value);
   };
 
   const handleEndChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setEndDate(new Date(e.target.value));
+    setEndDate(e.target.value);
   };
 
-  const handleSearch = () => {};
+  const handleSearch = () => {
+    // console.log(title);
+    // console.log(startDate);
+    // console.log(endDate);
+    // console.log(newspaper);
+    // console.log(category);
+    // console.log(keywords);
+    // 유효성 검사
+
+    changeMode({
+      title,
+      startDate,
+      endDate,
+      newspaper,
+      category,
+      keywords,
+    });
+  };
 
   return (
     <ContentWrapper>
@@ -126,6 +153,7 @@ const SearchSideContent: FC<Props> = ({ sideBarClose }) => {
         <TextField
           label="start"
           type="date"
+          defaultValue={startDate}
           InputLabelProps={{
             shrink: true,
           }}
@@ -134,6 +162,7 @@ const SearchSideContent: FC<Props> = ({ sideBarClose }) => {
         <TextField
           label="end"
           type="date"
+          defaultValue={endDate}
           InputLabelProps={{
             shrink: true,
           }}

@@ -23,6 +23,10 @@ interface News {
   img: string;
 }
 
+interface Props {
+  changeMode: (searchData: any) => void;
+}
+
 const MOCK_NEWS = [
   {
     idx: 1,
@@ -61,7 +65,7 @@ const MOCK_NEWS = [
   },
 ];
 
-const Home: FC = () => {
+const Home: FC<Props> = ({ changeMode }) => {
   const [MainNews, setMainNews] = useState<News[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [isNewsOpen, SetIsNewsOpen] = useState<boolean>(false);
@@ -155,7 +159,10 @@ const Home: FC = () => {
             sideOpen={sideOpen}
             sideBarClose={closeSideBar}
           >
-            <SearchSideContent sideBarClose={closeSideBar} />
+            <SearchSideContent
+              changeMode={changeMode}
+              sideBarClose={closeSideBar}
+            />
           </SearchSidebar>
         </>
       )}
