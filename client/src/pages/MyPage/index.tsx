@@ -1,8 +1,11 @@
-import { FC } from "react";
-import { Wrapper } from "./index.style";
+import { FC, useState } from "react";
+import LogIn from "@/components/MyPage/Login";
+import My from "@/components/MyPage/My";
 
 const MyPage: FC = () => {
-  return <Wrapper>마이페이지</Wrapper>;
+  const [isLogin, setIsLogin] = useState<boolean>(true);
+
+  return <>{!isLogin ? <LogIn /> : <My />}</>;
 };
 
 export default MyPage;
