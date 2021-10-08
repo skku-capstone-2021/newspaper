@@ -5,6 +5,7 @@ import { Button } from "@material-ui/core";
 import NewsRows from "@/components/Common/NewsRow";
 import Loading from "@/components/Common/Loading";
 import NewsModal from "@/components/Common/NewsModal";
+import KeywordModal from "../KeywordModal";
 
 const Wrapper = styled.div`
   width: 100%;
@@ -100,9 +101,11 @@ const My: FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [isNewsOpen, SetIsNewsOpen] = useState<boolean>(false);
   const [currentNewsIdx, setCurrentNewsIdx] = useState<number>(0);
+  const [isKeywordModal, SetIsKeywordModal] = useState<boolean>(false);
+
   const [mode, setMode] = useState<
     "view" | "recommend" | "subscribe" | "scrap"
-  >("view");
+  >("subscribe");
 
   const getData = async () => {
     return new Promise((resolve) => {
@@ -132,8 +135,16 @@ const My: FC = () => {
     setCurrentNewsIdx(1);
   }, [isNewsOpen, currentNewsIdx]);
 
+  const handleKewordClick = useCallback(() => {
+    SetIsKeywordModal(true);
+  }, [isKeywordModal]);
+
   const removeModal = () => {
     SetIsNewsOpen(false);
+  };
+
+  const removeKeywordModal = () => {
+    SetIsKeywordModal(false);
   };
 
   const handleMode = (e: any) => {
@@ -160,7 +171,11 @@ const My: FC = () => {
         <Right>
           <div>total: 100</div>
           {mode === "subscribe" && (
-            <Button variant="outlined" color="primary">
+            <Button
+              variant="outlined"
+              color="primary"
+              onClick={handleKewordClick}
+            >
               EDIT KEYWORD
             </Button>
           )}
@@ -195,6 +210,7 @@ const My: FC = () => {
         removeModal={removeModal}
         visible={isNewsOpen}
       />
+      <KeywordModal removeModal={removeKeywordModal} visible={isKeywordModal} />
     </Wrapper>
   );
 };

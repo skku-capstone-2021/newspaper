@@ -9,6 +9,8 @@ import Search from "./search.svg";
 import Good from "./good.svg";
 import Soso from "./soso.svg";
 import Bad from "./bad.svg";
+import Cancle from "./cancle.svg";
+import Edit from "./edit.svg";
 
 export {
   Analyze,
@@ -21,4 +23,6 @@ export {
   Good,
   Soso,
   Bad,
+  Edit,
+  Cancle,
 };
