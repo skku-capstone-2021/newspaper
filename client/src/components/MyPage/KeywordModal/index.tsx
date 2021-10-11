@@ -5,6 +5,7 @@ import Loading from "@/components/Common/Loading";
 import useOnClickOutside from "@/lib/hooks/useOnClickOutside";
 import { ModalOverlay, ModalWrapper, ModalInner } from "./index.style";
 import { Edit, Cancle } from "@/assets";
+import { alert } from "@/lib/utils/alert";
 
 const Wrapper = styled.div`
   border: 0.5px solid #999999;
@@ -50,11 +51,6 @@ const KeywordModal: FC<Props> = ({ visible, removeModal }) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [keywords, setKeywords] = useState<string[]>([]);
   const [input, setInput] = useState<string>("");
-  const [snack, setSnack] = useState<boolean>(false);
-
-  const handleSnackClose = () => {
-    setSnack(false);
-  };
 
   useOnClickOutside(modalRef, () => {
     removeModal();
@@ -82,13 +78,28 @@ const KeywordModal: FC<Props> = ({ visible, removeModal }) => {
   const addKeyword = useCallback(
     (e: any) => {
       if (e.keyCode === 13) {
-        console.log(input);
         if (keywords.includes(input)) {
-          setSnack(true);
+          alert("Already Exist");
+        } else {
+          setKeywords([...keywords, input]);
+          setInput("");
         }
       }
     },
     [input]
+  );
+
+  const handleCancle = useCallback(
+    (item: string) => {
+      const idx = keywords.findIndex((i) => {
+        return i === item;
+      });
+
+      const newKeywords = [...keywords];
+      newKeywords.splice(idx, 1);
+      setKeywords(newKeywords);
+    },
+    [keywords]
   );
 
   return (
@@ -107,6 +118,7 @@ const KeywordModal: FC<Props> = ({ visible, removeModal }) => {
                 variant="outlined"
                 onChange={handleInput}
                 onKeyDown={addKeyword}
+                value={input}
               />
               <Wrapper>
                 {keywords.length &&
@@ -114,8 +126,12 @@ const KeywordModal: FC<Props> = ({ visible, removeModal }) => {
                     <Keyword key={index}>
                       <Title>{item}</Title>
                       <Icons>
-                        <Icon src={Edit} />
-                        <Icon src={Cancle} />
+                        <Icon
+                          src={Cancle}
+                          onClick={() => {
+                            handleCancle(item);
+                          }}
+                        />
                       </Icons>
                     </Keyword>
                   ))}

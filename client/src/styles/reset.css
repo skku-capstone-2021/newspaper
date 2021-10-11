@@ -146,3 +146,9 @@ a{
 .slick-prev:before, .slick-next:before{
   color: black;
 }
+
+
+#portal {
+  display: flex;
+  justify-content: center;
+}

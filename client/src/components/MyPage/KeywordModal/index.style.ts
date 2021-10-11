@@ -29,6 +29,8 @@ export const ModalInner = styled.div`
   background-color: #fff;
   border-radius: 10px;
   width: 25rem;
+  max-height: 40rem;
+  overflow-y: scroll;
   overflow-y: scroll;
   top: 50%;
   transform: translateY(-50%);

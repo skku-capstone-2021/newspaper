@@ -6,7 +6,7 @@
   "scripts": {
     "start": "cross-env webpack --mode development",
     "dev": "cross-env webpack-dev-server --mode development --open --hot",
-    "build": "webpack --mode=production",
+    "build": "webpack --mode production",
     "prestart": "npm build",
     "lint:fix": "eslint --fix .",
     "prettier:write": "prettier --write .",

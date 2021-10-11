@@ -7,6 +7,7 @@ import News from "@/pages/News";
 import Analyze from "@/pages/Analyze";
 import MyPage from "@/pages/MyPage";
 import NotFound from "@/pages/NotFound";
+import AlertModal from "@/components/Common/AlertModal";
 
 const RouteWrapper = styled.div`
   flex: 88%;
@@ -60,6 +61,7 @@ const MyRouter: FC = () => {
           </Switch>
         </CSSTransition>
       </TransitionGroup>
+      <AlertModal />
     </RouteWrapper>
   );
 };
