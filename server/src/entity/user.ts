@@ -11,8 +11,11 @@ class UserEntity {
   @PrimaryGeneratedColumn()
   idx: number;
 
-  @Column({ length: 320, nullable: true })
+  @Column({ length: 320 })
   email: string;
+
+  @Column("text")
+  password: string;
 
   @CreateDateColumn({ type: "timestamp" })
   createdAt: Date;
