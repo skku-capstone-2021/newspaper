@@ -15,7 +15,12 @@ const RouteWrapper = styled.div`
   background-color: #f3f7fc;
 `;
 
-const pages = [
+type Page = {
+  path: string;
+  order: number;
+};
+
+const pages: Page[] = [
   { path: "/", order: 1 },
   { path: "/news", order: 2 },
   { path: "/analyze", order: 3 },
@@ -23,10 +28,12 @@ const pages = [
 ];
 
 const findOrder = (path: string) => {
-  const curPageOrder = pages.filter((page) => {
+  let curPageOrder: Page[] = pages.filter((page) => {
     return page.path === path;
   });
-  return curPageOrder[0].order;
+  if (curPageOrder[0]) {
+    return curPageOrder[0].order;
+  }
 };
 
 const MyRouter: FC = () => {

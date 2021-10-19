@@ -1,5 +1,8 @@
 @import "./reset.css";
 @import "./transition.css";
+@import "./tagsInput.css";
+@import "./slick.css";
+@import "./slickTheme.css";
 @import "./slide.css";
 @import "react-datepicker/dist/react-datepicker.css";
-@import "./keywords.css"
+@import "./keywords.css";

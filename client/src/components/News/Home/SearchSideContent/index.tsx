@@ -2,9 +2,6 @@ import { FC, useState, useEffect } from "react";
 import { TextField, Button, InputLabel } from "@material-ui/core";
 import Slider from "react-slick";
 import TagsInput from "react-tagsinput";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
-import "react-tagsinput/react-tagsinput.css";
 import {
   ContentWrapper,
   SlideWrapper,

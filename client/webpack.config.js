@@ -1,57 +1,10 @@
-const path = require("path");
-const HtmlWebpackPlugin = require("html-webpack-plugin");
-const Dotenv = require("dotenv-webpack");
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const { merge } = require("webpack-merge");
+const common = require("./webpack.config.common");
+const developmentConfig = require("./webpack.config.dev");
+const productionConfig = require("./webpack.config.prod");
 
-module.exports = {
-  mode: "development",
-
-  devtool: "source-map",
-
-  resolve: {
-    alias: {
-      "@": path.resolve(__dirname, "src"),
-    },
-
-    extensions: [".jsx", ".js", ".tsx", ".ts"],
-  },
-
-  entry: {
-    app: "./src/index.tsx",
-  },
-
-  module: {
-    rules: [
-      {
-        test: /\.tsx?$/,
-        loader: "ts-loader",
-        exclude: /node_modules/,
-      },
-      {
-        test: /\.(sa|sc|c)ss$/,
-        use: ["style-loader", "css-loader"],
-      },
-      {
-        test: /\.(svg|png|jpg|gif)$/i,
-        loader: "url-loader",
-      },
-    ],
-  },
-  plugins: [
-    new Dotenv({
-      path: path.resolve(__dirname, "./.env"),
-    }),
-    new HtmlWebpackPlugin({
-      template: "./src/index.html",
-    }),
-  ],
-
-  output: {
-    filename: "[name].js",
-    path: path.resolve(__dirname, "./dist"),
-  },
-
-  devServer: {
-    historyApiFallback: true,
-  },
+module.exports = (_env, argv) => {
+  const config =
+    argv.mode === "development" ? developmentConfig : productionConfig;
+  return merge(common, config);
 };
