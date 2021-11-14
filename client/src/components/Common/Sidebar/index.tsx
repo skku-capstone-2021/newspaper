@@ -1,7 +1,10 @@
 import { FC, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import DatePicker from "react-datepicker";
+import Tooltip from "@material-ui/core/Tooltip";
+import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 import { Analyze, Dashboard, Mypage, News, Logo } from "@/assets";
+
 import {
   Icon,
   Menu,
@@ -13,6 +16,15 @@ import {
 const Sidebar: FC = () => {
   const { pathname } = useLocation();
   const [date, setDate] = useState<Date>(new Date());
+  const [open, setOpen] = useState<boolean>(false);
+
+  const handleTooltipClose = () => {
+    setOpen(false);
+  };
+
+  const handleTooltipOpen = () => {
+    setOpen(true);
+  };
 
   return (
     <SidebarWrapper>
@@ -21,44 +33,40 @@ const Sidebar: FC = () => {
       </Link>
       <Menu>
         <Link to="/">
-          <Icon
-            src={Dashboard}
-            alt="dashboard"
-            width="2.3"
-            height="2.3"
-            className={pathname === "/" ? "selected" : ""}
-            current={pathname === "/"}
-          />
+          <Tooltip disableFocusListener disableTouchListener title="Dashboard">
+            <Icon
+              src={Dashboard}
+              alt="dashboard"
+              width="2.3"
+              height="2.3"
+              className={pathname === "/" ? "selected" : ""}
+              current={pathname === "/"}
+            />
+          </Tooltip>
         </Link>
         <Link to="/news">
-          <Icon
-            src={News}
-            alt="news"
-            width="2.3"
-            height="2.3"
-            className={pathname === "/news" ? "selected" : ""}
-            current={pathname === "/news"}
-          />
-        </Link>
-        <Link to="/analyze">
-          <Icon
-            src={Analyze}
-            alt="analyze"
-            width="2.3"
-            height="2.3"
-            className={pathname === "/analyze" ? "selected" : ""}
-            current={pathname === "/analyze"}
-          />
+          <Tooltip disableFocusListener disableTouchListener title="News">
+            <Icon
+              src={News}
+              alt="news"
+              width="2.3"
+              height="2.3"
+              className={pathname === "/news" ? "selected" : ""}
+              current={pathname === "/news"}
+            />
+          </Tooltip>
         </Link>
         <Link to="/mypage">
-          <Icon
-            src={Mypage}
-            alt="mypage"
-            width="2.3"
-            height="2.3"
-            className={pathname === "/mypage" ? "selected" : ""}
-            current={pathname === "/mypage"}
-          />
+          <Tooltip disableFocusListener disableTouchListener title="Mypage">
+            <Icon
+              src={Mypage}
+              alt="mypage"
+              width="2.3"
+              height="2.3"
+              className={pathname === "/mypage" ? "selected" : ""}
+              current={pathname === "/mypage"}
+            />
+          </Tooltip>
         </Link>
       </Menu>
       <CalendarWrapper>
