@@ -1,10 +1,12 @@
 import { Router } from "express";
-import { handleCreateUser } from "./controller";
+import { handleCreateUser, handleSignin } from "./controller";
 
 const usersRouter = Router();
 
 export default (router: Router) => {
   router.use("/user", usersRouter);
 
-  usersRouter.post("/", handleCreateUser);
+  usersRouter.post("/signup", handleCreateUser);
+
+  usersRouter.post("/signin", handleSignin);
 };

@@ -1,5 +1,6 @@
 import { FC, useEffect, useState, useCallback } from "react";
 import { TextField, Button, InputLabel } from "@material-ui/core";
+import Cookies from "js-cookie";
 import {
   Wrapper,
   ModalWrapper,
@@ -8,13 +9,15 @@ import {
   ButtonWrapper,
   Toggle,
 } from "./index.style";
+import { alert } from "@/lib/utils/alert";
+import { sendPost } from "@/lib/utils/api";
 
 interface Props {
   removeLoginModal: () => void;
 }
 
 const LoginModal: FC<Props> = ({ removeLoginModal }) => {
-  const [isLogin, setIsLogin] = useState<boolean>(false);
+  const [isLogin, setIsLogin] = useState<boolean>(true);
   const [id, setId] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [verify, setVerify] = useState<string>("");
@@ -25,13 +28,81 @@ const LoginModal: FC<Props> = ({ removeLoginModal }) => {
 
   const handleSubmit = useCallback(() => {
     if (isLogin) {
-      console.log("로그인 로직");
-      removeLoginModal();
+      if (!id) {
+        alert("please input id");
+        return;
+      }
+
+      if (!password) {
+        alert("please input password");
+        return;
+      }
+
+      sendPost("/user/signin", {
+        id,
+        password,
+      }).then((res) => {
+        if (res.data.message) {
+          alert(res.data.message);
+        } else {
+          Cookies.set("id", res.data.idx, { path: "/" });
+          removeLoginModal();
+        }
+      });
     } else {
-      setIsLogin(true);
-      console.log("회원가입 로직");
+      if (!id) {
+        alert("please input id");
+        return;
+      }
+
+      if (!password) {
+        alert("please input password");
+        return;
+      }
+
+      if (!verify) {
+        alert("please input verify password");
+        return;
+      }
+
+      if (password !== verify) {
+        alert("please input same password, verify password");
+        return;
+      }
+
+      sendPost("/user/signup", {
+        id,
+        password,
+      }).then((res) => {
+        if (res.data.message) {
+          alert(res.data.message);
+        } else {
+          setIsLogin(true);
+        }
+      });
     }
-  }, [isLogin]);
+  }, [isLogin, id, password, verify]);
+
+  const handleId = useCallback(
+    (e: any) => {
+      setId(e.target.value);
+    },
+    [id, password, verify]
+  );
+
+  const handlePassword = useCallback(
+    (e: any) => {
+      setPassword(e.target.value);
+    },
+    [id, password, verify]
+  );
+
+  const handleVerify = useCallback(
+    (e: any) => {
+      setVerify(e.target.value);
+    },
+    [id, password, verify]
+  );
 
   return (
     <Wrapper>
@@ -44,6 +115,7 @@ const LoginModal: FC<Props> = ({ removeLoginModal }) => {
               required
               placeholder="Enter Id"
               variant="outlined"
+              onChange={handleId}
             />
           </InputWrapper>
           <InputWrapper>
@@ -53,6 +125,8 @@ const LoginModal: FC<Props> = ({ removeLoginModal }) => {
               required
               placeholder="Enter password"
               variant="outlined"
+              type="password"
+              onChange={handlePassword}
             />
           </InputWrapper>
           {!isLogin && (
@@ -65,6 +139,8 @@ const LoginModal: FC<Props> = ({ removeLoginModal }) => {
                 required
                 placeholder="Enter password"
                 variant="outlined"
+                type="password"
+                onChange={handleVerify}
               />
             </InputWrapper>
           )}

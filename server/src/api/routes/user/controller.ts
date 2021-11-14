@@ -1,7 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import Container from "typedi";
 import UsersService from "@/service/user";
-import { CommonResponse } from "@/type/common";
 
 export const handleCreateUser = async (
   req: Request,
@@ -9,15 +8,37 @@ export const handleCreateUser = async (
   next: NextFunction
 ) => {
   try {
-    const { email } = req.body;
+    const { id, password } = req.body;
 
     const userServiceInstance = Container.get(UsersService);
 
-    const { idx, createdAt, updatedAt } = (await userServiceInstance.createUser(
-      email
-    )) as CommonResponse;
+    const ret = await userServiceInstance.createUser({
+      id,
+      password,
+    } as any);
 
-    return res.json({ idx, createdAt, updatedAt });
+    return res.json(ret);
+  } catch (e) {
+    return next(e);
+  }
+};
+
+export const handleSignin = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { id, password } = req.body;
+
+    const userServiceInstance = Container.get(UsersService);
+
+    const ret = await userServiceInstance.signin({
+      id,
+      password,
+    } as any);
+
+    return res.json(ret);
   } catch (e) {
     return next(e);
   }

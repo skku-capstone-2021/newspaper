@@ -1,4 +1,5 @@
-import { FC, useState, useCallback } from "react";
+import { FC, useState, useCallback, useEffect } from "react";
+import Cookies from "js-cookie";
 import LogIn from "@/components/MyPage/Login";
 import My from "@/components/MyPage/My";
 
@@ -8,6 +9,14 @@ const MyPage: FC = () => {
   const removeLoginModal = useCallback(() => {
     setIsLogin(true);
   }, [isLogin]);
+
+  useEffect(() => {
+    if (Cookies.get("id")) {
+      setIsLogin(true);
+    } else {
+      setIsLogin(false);
+    }
+  }, []);
 
   return (
     <>{!isLogin ? <LogIn removeLoginModal={removeLoginModal} /> : <My />}</>

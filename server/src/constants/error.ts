@@ -48,6 +48,6 @@ export const commonError = {
 export const unable = (message: string) => {
   return {
     statusCode: 500,
-    message: `unable to ${message}`,
+    message: `${message}`,
   };
 };

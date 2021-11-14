@@ -12,7 +12,7 @@ class UserEntity {
   idx: number;
 
   @Column({ length: 320 })
-  email: string;
+  id: string;
 
   @Column("text")
   password: string;
