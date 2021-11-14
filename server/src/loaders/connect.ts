@@ -4,7 +4,9 @@ import * as typedi from "typedi";
 
 const connect = async () => {
   useContainer(Container);
+
   const connection = await createConnection();
+  console.log("test");
 
   typedi.Container.set("connection", connection);
 

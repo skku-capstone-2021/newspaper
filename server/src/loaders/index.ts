@@ -8,6 +8,7 @@ export default async (app: Express) => {
   console.info("Express loaded");
 
   await connect();
+
   console.info("ORM connected");
 
   entityInjector();
