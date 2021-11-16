@@ -74,7 +74,7 @@ export const Horizon = styled.div`
 
 export const MainImg = styled.img`
   width: 100%;
-  min-height: 40vh;
+  height: 40vh;
 `;
 
 export const ContentWrapper = styled.div`

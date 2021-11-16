@@ -4,26 +4,31 @@ import Loading from "../Loading";
 import { ModalOverlay, ModalWrapper, ModalInner } from "./index.style";
 import NewsContent from "@/components/Common/NewsContent";
 
+interface NewsItem {
+  category: any;
+  company: any;
+  confidence: any;
+  content: any;
+  created_at: any;
+  date: any;
+  idx: any;
+  img_url: any;
+  keywords: any;
+  recommend: any;
+  result: any;
+  short_content: any;
+  title: any;
+  updated_at: any;
+  url: any;
+}
+
 interface Props {
-  idx: number;
+  news: NewsItem;
   visible: boolean;
   removeModal: () => void;
 }
 
-interface NewsItem {
-  company: string;
-  title: string;
-  keywords: string[];
-  score: number;
-  category: string;
-  origin: string;
-  date: string;
-  img: string;
-  shortContent: string;
-  content: string;
-}
-
-const NewsModal: FC<Props> = ({ visible, removeModal }) => {
+const NewsModal: FC<Props> = ({ news, visible, removeModal }) => {
   const modalRef = useRef(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [newsItem, setNewsItem] = useState<NewsItem>();
@@ -32,44 +37,16 @@ const NewsModal: FC<Props> = ({ visible, removeModal }) => {
     removeModal();
   });
 
-  useEffect(() => {
-    setLoading(true);
-    setTimeout(() => {
-      setNewsItem({
-        company: "ABC NEWS",
-        title: "This is News Title",
-        keywords: ["keywords1", "keywords2", "keywords3"],
-        score: 1,
-        category: "society",
-        origin:
-          "https://www.notion.so/0491d1639de247a4b237638e2e319d7b?v=eea4ae3aeeaa43659db16ce211f5fab1&p=015e603b5299452aa7adce5630e678b7",
-        date: "2021-09-24",
-        img: "https://user-images.githubusercontent.com/47776356/134925803-def90275-df33-4782-93c0-7b9757379613.jpeg",
-        shortContent:
-          "short content short content short content short content short content short content short content short content short content short content short content short content short content short content short content short content short content short content",
-        content:
-          "long content long contentlong contentlong contentlong contentlong contentlong contentlong contentlong contentlong contentlong contentlong contentlong contentlong contentlong contentlong contentlong contentlong contentlong contentlong contentlong contentlong contentlong contentlong contentlong contentlong contentlong contentlong contentlong contentlong contentlong contentlong contentlong contentlong contentlong contentlong contentlong contentlong contentlong contentlong contentlong contentlong contentlong contentlong content long content long contentlong contentlong contentlong contentlong contentlong contentlong contentlong contentlong contentlong contentlong contentlong contentlong contentlong contentlong contentlong contentlong contentlong contentlong contentlong contentlong contentlong contentlong contentlong contentlong contentlong contentlong contentlong contentlong contentlong contentlong contentlong contentlong contentlong contentlong contentlong contentlong contentlong contentlong contentlong contentlong contentlong contentlong contentlong content long contentlong contentlong contentlong contentlong contentlong contentlong contentlong contentlong contentlong contentlong contentlong contentlong contentlong contentlong contentlong contentlong contentlong contentlong contentlong contentlong contentlong contentlong contentlong contentlong contentlong contentlong contentlong contentlong contentlong contentlong contentlong contentlong contentlong contentlong contentlong contentlong contentlong contentlong contentlong contentlong contentlong contentlong contentlong content long contentlong contentlong contentlong contentlong contentlong contentlong contentlong contentlong contentlong contentlong contentlong contentlong contentlong contentlong contentlong contentlong contentlong contentlong contentlong contentlong contentlong contentlong contentlong contentlong contentlong contentlong contentlong contentlong contentlong contentlong contentlong contentlong contentlong contentlong contentlong contentlong contentlong contentlong contentlong contentlong contentlong contentlong content",
-      });
-      setLoading(false);
-    }, 1500);
-  }, []);
-
-  useEffect(() => {
-    return () => setLoading(false);
-  }, []);
-
   return (
     <>
-      <ModalOverlay visible={visible} />
-      <ModalWrapper visible={visible}>
-        <ModalInner ref={modalRef} className="modal-inner">
-          {loading ? (
-            <Loading />
-          ) : (
-            newsItem && <NewsContent newsItem={newsItem} />
-          )}
-        </ModalInner>
-      </ModalWrapper>
+      <>
+        <ModalOverlay visible={visible} />
+        <ModalWrapper visible={visible}>
+          <ModalInner ref={modalRef} className="modal-inner">
+            {loading ? <Loading /> : news && <NewsContent newsItem={news} />}
+          </ModalInner>
+        </ModalWrapper>
+      </>
     </>
   );
 };

@@ -81,14 +81,15 @@ const Home: FC<Props> = ({ changeMode, date }) => {
   const [MainNews, setMainNews] = useState<News[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [isNewsOpen, SetIsNewsOpen] = useState<boolean>(false);
-  const [currentNewsIdx, setCurrentNewsIdx] = useState<number>(0);
+  const [currentNews, setCurrentNews] = useState<News>(null);
+
   const [sideOpen, setSideOpen] = useState<boolean>(false);
   const handleNewsClick = useCallback(
     (item: News) => {
       SetIsNewsOpen(true);
-      setCurrentNewsIdx(item.idx);
+      setCurrentNews(item);
     },
-    [isNewsOpen, currentNewsIdx]
+    [isNewsOpen, currentNews]
   );
 
   const getToday = (date: Date) => {
@@ -104,7 +105,6 @@ const Home: FC<Props> = ({ changeMode, date }) => {
 
     sendPost("/article/main", { date: getToday(date) }).then((res) => {
       setMainNews(res.data.articles);
-      console.log(res.data.articles);
       setLoading(false);
     });
   }, [date]);
@@ -175,7 +175,7 @@ const Home: FC<Props> = ({ changeMode, date }) => {
           )}
 
           <NewsModal
-            idx={currentNewsIdx}
+            news={currentNews}
             removeModal={removeModal}
             visible={isNewsOpen}
           />

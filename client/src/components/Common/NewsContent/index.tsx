@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { FC, useState, useEffect } from "react";
 import { Button } from "@material-ui/core";
 import { Good } from "@/assets";
 import {
@@ -21,21 +21,36 @@ import {
 
 interface Props {
   newsItem: {
-    company: string;
-    title: string;
-    keywords: string[];
-    score: number;
-    category: string;
-    origin: string;
-    date: string;
-    img: string;
-    shortContent: string;
-    content: string;
+    category: any;
+    company: any;
+    confidence: any;
+    content: any;
+    created_at: any;
+    date: any;
+    idx: any;
+    img_url: any;
+    keywords: any;
+    recommend: any;
+    result: any;
+    short_content: any;
+    title: any;
+    updated_at: any;
+    url: any;
   };
 }
 
 const NewsContent: FC<Props> = ({ newsItem }) => {
   const [isEntire, setIsEntire] = useState<boolean>(false);
+  const parsing = (keystr: string) => {
+    let sliced = keystr.slice(1, keystr.length - 1);
+    sliced = sliced.replace(/'/gi, "");
+    sliced = sliced.replace(/ /gi, "");
+    return sliced.split(",").slice(0, 4);
+  };
+
+  useEffect(() => {
+    setIsEntire(false);
+  }, [newsItem]);
 
   return (
     <>
@@ -49,7 +64,7 @@ const NewsContent: FC<Props> = ({ newsItem }) => {
         </Flex>
         <Flex>
           <Keywords>
-            {newsItem.keywords.map((item, key) => (
+            {parsing(newsItem.keywords).map((item, key) => (
               <Keyword key={key}>{item}</Keyword>
             ))}
           </Keywords>
@@ -57,24 +72,26 @@ const NewsContent: FC<Props> = ({ newsItem }) => {
         </Flex>
         <Flex>
           <Buttons>
-            <Button variant="outlined" color="primary">
-              <a href="https://www.naver.com">
-                <div>original</div>
-              </a>
-            </Button>
+            {newsItem.url && (
+              <Button variant="outlined" color="primary">
+                <a href={`${newsItem.url}`}>
+                  <div>original</div>
+                </a>
+              </Button>
+            )}
             <Button variant="outlined" color="primary">
               <a>scrap</a>
             </Button>
           </Buttons>
-          <Date>{newsItem.date}</Date>
+          <Date>{newsItem.date.split("T")[0]}</Date>
         </Flex>
       </Header>
       <Horizon />
-      <MainImg src={newsItem.img} />
+      <MainImg src={newsItem.img_url} />
       <ContentWrapper>
         {!isEntire ? (
           <div>
-            <Content>{newsItem.shortContent}</Content>
+            <Content>{newsItem.short_content}</Content>
             <More
               onClick={() => {
                 setIsEntire(true);
