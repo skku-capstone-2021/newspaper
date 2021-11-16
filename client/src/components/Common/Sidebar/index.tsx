@@ -2,8 +2,7 @@ import { FC, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import DatePicker from "react-datepicker";
 import Tooltip from "@material-ui/core/Tooltip";
-import ClickAwayListener from "@material-ui/core/ClickAwayListener";
-import { Analyze, Dashboard, Mypage, News, Logo } from "@/assets";
+import { Dashboard, Mypage, News, Logo } from "@/assets";
 
 import {
   Icon,
@@ -13,17 +12,17 @@ import {
   DateLabel,
 } from "./index.style";
 
-const Sidebar: FC = () => {
+interface Props {
+  changeDate: (d: Date) => void;
+}
+
+const Sidebar: FC<Props> = ({ changeDate }) => {
   const { pathname } = useLocation();
   const [date, setDate] = useState<Date>(new Date());
-  const [open, setOpen] = useState<boolean>(false);
 
-  const handleTooltipClose = () => {
-    setOpen(false);
-  };
-
-  const handleTooltipOpen = () => {
-    setOpen(true);
+  const handleDate = (d: Date) => {
+    changeDate(d);
+    setDate(d);
   };
 
   return (
@@ -71,11 +70,7 @@ const Sidebar: FC = () => {
       </Menu>
       <CalendarWrapper>
         <DateLabel htmlFor="date-pick">{date.getDate()}</DateLabel>
-        <DatePicker
-          id="date-pick"
-          selected={date}
-          onChange={(d: Date) => setDate(d)}
-        />
+        <DatePicker id="date-pick" selected={date} onChange={handleDate} />
       </CalendarWrapper>
     </SidebarWrapper>
   );

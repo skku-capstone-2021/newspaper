@@ -36,7 +36,11 @@ const findOrder = (path: string) => {
   }
 };
 
-const MyRouter: FC = () => {
+interface Props {
+  date: Date;
+}
+
+const MyRouter: FC<Props> = ({ date }) => {
   const location = useLocation();
   const [order, setOrder] = useState<number>(findOrder(location.pathname));
   const [page, setPage] = useState<string>(location.pathname);
@@ -60,8 +64,8 @@ const MyRouter: FC = () => {
       <TransitionGroup className={`transition-group ${direction}`}>
         <CSSTransition key={location.pathname} classNames="fade" timeout={400}>
           <Switch location={location}>
-            <Route path="/" exact component={Dashboard} />
-            <Route path="/news" exact component={News} />
+            <Route path="/" exact render={() => <Dashboard date={date} />} />
+            <Route path="/news" exact render={() => <News date={date} />} />
             <Route path="/analyze" exact component={Analyze} />
             <Route path="/mypage" exact component={MyPage} />
             <Route path="*" component={NotFound} />

@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useState } from "react";
 import styled from "styled-components";
 import { BrowserRouter } from "react-router-dom";
 import Router from "./Router";
@@ -12,11 +12,17 @@ const Main = styled.div`
 `;
 
 const App: FC = () => {
+  const [date, setDate] = useState<Date>(new Date());
+
+  const changeDate = (d: Date) => {
+    setDate(d);
+  };
+
   return (
     <Main>
       <BrowserRouter>
-        <Sidebar />
-        <Router />
+        <Sidebar changeDate={changeDate} />
+        <Router date={date} />
       </BrowserRouter>
     </Main>
   );

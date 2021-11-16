@@ -5,7 +5,11 @@ import Keyword from "@/components/Dashboard/Keyword";
 import Rate from "@/components/Dashboard/Rate";
 import Loading from "@/components/Common/Loading";
 
-const Dashboard: FC = () => {
+interface Props {
+  date: Date;
+}
+
+const Dashboard: FC<Props> = ({ date }) => {
   const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {

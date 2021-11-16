@@ -3,10 +3,21 @@ import ReactCardFlip from "react-card-flip";
 import { FrontItem, BackItem, Title, Company } from "./index.style";
 
 interface News {
-  idx: number;
-  title: string;
-  company: string;
-  img: string;
+  category: any;
+  company: any;
+  confidence: any;
+  content: any;
+  created_at: any;
+  date: any;
+  idx: any;
+  img_url: any;
+  keywords: any;
+  recommend: any;
+  result: any;
+  short_content: any;
+  title: any;
+  updated_at: any;
+  url: any;
 }
 
 interface Props {
@@ -26,7 +37,7 @@ const NewsItem: FC<Props> = ({ item, size, handleNewsClick }) => {
     >
       <ReactCardFlip isFlipped={isFlipped} flipDirection="vertical">
         <FrontItem
-          img={item.img}
+          img={item.img_url}
           size={size}
           onMouseOver={() => {
             setIsFlipped(true);

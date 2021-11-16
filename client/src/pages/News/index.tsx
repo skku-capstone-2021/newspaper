@@ -1,9 +1,13 @@
-import { FC, useState } from "react";
+import { FC, useState, useEffect } from "react";
 import { NewsWrapper } from "./index.style";
 import Home from "@/components/News/Home";
 import Search from "@/components/News/Search";
 
-const News: FC = () => {
+interface Props {
+  date: Date;
+}
+
+const News: FC<Props> = ({ date }) => {
   const [mode, setMode] = useState<"home" | "search">("home");
   const [searchData, setSearchData] = useState<any>({});
 
@@ -15,7 +19,7 @@ const News: FC = () => {
   return (
     <NewsWrapper>
       {mode === "home" ? (
-        <Home changeMode={changeMode} />
+        <Home changeMode={changeMode} date={date} />
       ) : (
         <Search searchData={searchData} />
       )}
