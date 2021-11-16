@@ -7,6 +7,7 @@ import {
   Left,
   Right,
   Bottom,
+  Nodata,
 } from "./index.style";
 import { Search } from "@/assets";
 import NewsItem from "@/components/News/Home/NewsItem";
@@ -15,6 +16,7 @@ import Loading from "@/components/Common/Loading";
 import SearchSidebar from "@/components/News/Home/SearchSidebar";
 import SearchSideContent from "./SearchSideContent";
 import { sendPost } from "@/lib/utils/api";
+import { Oops } from "@/assets/index";
 
 interface News {
   category: any;
@@ -38,44 +40,6 @@ interface Props {
   changeMode: (searchData: any) => void;
   date: Date;
 }
-
-// const MOCK_NEWS = [
-//   {
-//     idx: 1,
-//     title:
-//       'Critic and programmer Geoff Andrew remembers reviewing the film for Time Out when it first came out. "I was not alone in being highly impressed ',
-//     company: "ABC news",
-//     img: "https://user-images.githubusercontent.com/47776356/134925750-2122745e-c554-4de6-abc1-bd57fae840c7.jpeg",
-//   },
-//   {
-//     idx: 2,
-//     title:
-//       'Critic and programmer Geoff Andrew remembers reviewing the film for Time Out when it first came out. "I was not alone in being highly impressed ',
-//     company: "ABC news",
-//     img: "https://user-images.githubusercontent.com/47776356/134925780-c72a7c33-c2bc-46e9-8e80-4ea1f6730f09.jpeg",
-//   },
-//   {
-//     idx: 3,
-//     title:
-//       'Critic and programmer Geoff Andrew remembers reviewing the film for Time Out when it first came out. "I was not alone in being highly impressed ',
-//     company: "ABC news",
-//     img: "https://user-images.githubusercontent.com/47776356/134925803-def90275-df33-4782-93c0-7b9757379613.jpeg",
-//   },
-//   {
-//     idx: 4,
-//     title:
-//       'Critic and programmer Geoff Andrew remembers reviewing the film for Time Out when it first came out. "I was not alone in being highly impressed ',
-//     company: "ABC news",
-//     img: "https://user-images.githubusercontent.com/47776356/134925828-c4f5de9d-c993-4f5f-ab33-d4efd9d42cf3.jpg",
-//   },
-//   {
-//     idx: 5,
-//     title:
-//       'Critic and programmer Geoff Andrew remembers reviewing the film for Time Out when it first came out. "I was not alone in being highly impressed ',
-//     company: "ABC news",
-//     img: "https://user-images.githubusercontent.com/47776356/134926033-2cd1f945-951c-456e-84a0-01423c4e168b.jpeg",
-//   },
-// ];
 
 const Home: FC<Props> = ({ changeMode, date }) => {
   const [MainNews, setMainNews] = useState<News[]>([]);
@@ -138,7 +102,7 @@ const Home: FC<Props> = ({ changeMode, date }) => {
               height="3.5"
             />
           </TitleWrapper>
-          {MainNews.length && (
+          {MainNews.length > 0 ? (
             <NewsDisplay>
               <Left>
                 <NewsItem
@@ -172,6 +136,11 @@ const Home: FC<Props> = ({ changeMode, date }) => {
                 />
               </Right>
             </NewsDisplay>
+          ) : (
+            <Nodata>
+              <img src={Oops} alt="oops" />
+              <div>No News Data</div>
+            </Nodata>
           )}
 
           <NewsModal

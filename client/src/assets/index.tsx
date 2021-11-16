@@ -11,6 +11,7 @@ import Soso from "./soso.svg";
 import Bad from "./bad.svg";
 import Cancle from "./cancle.svg";
 import Edit from "./edit.svg";
+import Oops from "./opps.png";
 
 export {
   Analyze,
@@ -25,4 +26,5 @@ export {
   Bad,
   Edit,
   Cancle,
+  Oops,
 };

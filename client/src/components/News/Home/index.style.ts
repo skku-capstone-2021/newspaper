@@ -60,3 +60,20 @@ export const Bottom = styled.div`
   display: flex;
   gap: 1.5rem;
 `;
+
+export const Nodata = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 50vh;
+  flex-direction: column;
+  img {
+    height: 12rem;
+  }
+
+  div {
+    font-weight: bold;
+    margin-top: 0.3rem;
+    font-size: 1.5rem;
+  }
+`;
