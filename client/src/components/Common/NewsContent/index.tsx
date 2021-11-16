@@ -1,6 +1,10 @@
 import { FC, useState, useEffect } from "react";
 import { Button } from "@material-ui/core";
+import Cookies from "js-cookie";
 import { Good } from "@/assets";
+import { sendPost } from "@/lib/utils/api";
+import { alert } from "@/lib/utils/alert";
+
 import {
   Header,
   NewsPaper,
@@ -52,6 +56,19 @@ const NewsContent: FC<Props> = ({ newsItem }) => {
     setIsEntire(false);
   }, [newsItem]);
 
+  const handleScrap = () => {
+    sendPost("/scrap/add", {
+      user: Cookies.get("id"),
+      article: newsItem.idx,
+    }).then((res) => {
+      if (res.data.message) {
+        alert(res.data.message);
+      } else {
+        alert("scrap complete");
+      }
+    });
+  };
+
   return (
     <>
       <Header>
@@ -79,9 +96,11 @@ const NewsContent: FC<Props> = ({ newsItem }) => {
                 </a>
               </Button>
             )}
-            <Button variant="outlined" color="primary">
-              <a>scrap</a>
-            </Button>
+            {Cookies.get("id") && (
+              <Button variant="outlined" color="primary">
+                <div onClick={handleScrap}>scrap</div>
+              </Button>
+            )}
           </Buttons>
           <Date>{newsItem.date.split("T")[0]}</Date>
         </Flex>

@@ -8,6 +8,11 @@ class ArticleRepository extends Repository<ArticleEntity> {
     const articles = getManager().query(myquery);
     return articles;
   }
+
+  async findByIdx(idx: number) {
+    const article = await this.findOne({ where: { idx } });
+    return article;
+  }
 }
 
 export default ArticleRepository;
