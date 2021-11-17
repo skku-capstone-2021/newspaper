@@ -21,3 +21,19 @@ export const getMain = async (
     return next(e);
   }
 };
+
+export const getInfo = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const articleServiceInstance = Container.get(ArticleService);
+
+    const ret = await articleServiceInstance.getInfo();
+
+    return res.json(ret);
+  } catch (e) {
+    return next(e);
+  }
+};

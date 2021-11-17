@@ -34,6 +34,31 @@ class ArticleService {
       return { message: e.message };
     }
   }
+
+  async getInfo() {
+    try {
+      const articles = await this.articleRepository.findAll();
+
+      const newspapers = [] as String[];
+      const categorys = [] as String[];
+
+      articles.forEach((item) => {
+        if (!newspapers.includes(item.company)) {
+          newspapers.push(item.company);
+        }
+
+        if (!categorys.includes(item.category)) {
+          categorys.push(item.category);
+        }
+      });
+
+      newspapers.sort();
+      categorys.sort();
+      return { newspapers, categorys };
+    } catch (e: any) {
+      return { message: e.message };
+    }
+  }
 }
 
 export default ArticleService;

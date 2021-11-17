@@ -15,6 +15,7 @@ export const SlideItem = styled.div`
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
+  font-size: x-small;
 `;
 
 export const ButtonGroup = styled.div`

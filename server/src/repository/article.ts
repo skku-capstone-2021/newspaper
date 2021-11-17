@@ -13,6 +13,13 @@ class ArticleRepository extends Repository<ArticleEntity> {
     const article = await this.findOne({ where: { idx } });
     return article;
   }
+
+  async findAll() {
+    const articles = await this.find({
+      select: ["company", "category"],
+    });
+    return articles;
+  }
 }
 
 export default ArticleRepository;

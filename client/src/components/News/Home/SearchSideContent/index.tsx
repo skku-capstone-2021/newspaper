@@ -8,6 +8,7 @@ import {
   SlideItem,
   ButtonGroup,
 } from "./index.style";
+import { sendPost } from "@/lib/utils/api";
 
 interface Props {
   sideBarClose: () => void;
@@ -62,36 +63,11 @@ const SearchSideContent: FC<Props> = ({ sideBarClose, changeMode }) => {
     }
   };
 
-  const getNewspaper = () => {
-    return new Promise((resolve) => {
-      resolve([
-        "newspaper1",
-        "newspaper2",
-        "newspaper3",
-        "newspaper4",
-        "newspaper5",
-      ]);
-    });
-  };
-
-  const getCategory = () => {
-    return new Promise((resolve) => {
-      resolve([
-        "category1",
-        "category2",
-        "category3",
-        "category4",
-        "category5",
-      ]);
-    });
-  };
-
   const fetchData = async () => {
-    const response1 = (await getNewspaper()) as string[];
-    const response2 = (await getCategory()) as string[];
-
-    setLoadNewspaper(response1);
-    setLoadCategory(response2);
+    sendPost("/article/info", {}).then((res) => {
+      setLoadNewspaper(res.data.newspapers);
+      setLoadCategory(res.data.categorys);
+    });
   };
 
   useEffect(() => {
