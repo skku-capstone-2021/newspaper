@@ -59,6 +59,50 @@ class ArticleService {
       return { message: e.message };
     }
   }
+
+  async search(
+    title: any,
+    startDate: any,
+    endDate: any,
+    newspaper: any,
+    category: any,
+    keyword: any
+  ) {
+    try {
+      interface news {
+        category: any;
+        company: any;
+        confidence: any;
+        content: any;
+        created_at: any;
+        date: any;
+        idx: any;
+        img_url: any;
+        keywords: any;
+        recommend: any;
+        result: any;
+        short_content: any;
+        title: any;
+        updated_at: any;
+        url: any;
+      }
+
+      let articles = await this.articleRepository.search(
+        title,
+        startDate,
+        endDate,
+        newspaper,
+        category,
+        keyword
+      );
+
+      articles = articles.filter((item: news) => item.img_url !== null);
+
+      return { articles };
+    } catch (e: any) {
+      return { message: e.message };
+    }
+  }
 }
 
 export default ArticleService;

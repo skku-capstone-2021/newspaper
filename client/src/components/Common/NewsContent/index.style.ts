@@ -83,6 +83,7 @@ export const ContentWrapper = styled.div`
 
 export const Content = styled.div`
   font-size: 1.1rem;
+  text-align: justify;
 `;
 
 export const More = styled.div`

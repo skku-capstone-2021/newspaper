@@ -1,8 +1,8 @@
 import { NextFunction, Request, Response } from "express";
 import Container from "typedi";
-import ScrapService from "@/service/scrap";
+import ViewService from "@/service/view";
 
-export const addScrap = async (
+export const addView = async (
   req: Request,
   res: Response,
   next: NextFunction
@@ -10,8 +10,8 @@ export const addScrap = async (
   try {
     const { user, article } = req.body;
 
-    const scrapServiceInstance = Container.get(ScrapService);
-    const ret = await scrapServiceInstance.addScrap({
+    const viewServiceInstance = Container.get(ViewService);
+    const ret = await viewServiceInstance.addView({
       user: Number(user),
       article: Number(article),
     } as any);
@@ -21,7 +21,7 @@ export const addScrap = async (
   }
 };
 
-export const getScrap = async (
+export const getView = async (
   req: Request,
   res: Response,
   next: NextFunction
@@ -29,8 +29,8 @@ export const getScrap = async (
   try {
     const { user } = req.body;
 
-    const scrapServiceInstance = Container.get(ScrapService);
-    const ret = await scrapServiceInstance.getScrap({
+    const viewServiceInstance = Container.get(ViewService);
+    const ret = await viewServiceInstance.getView({
       user: Number(user),
     } as any);
 

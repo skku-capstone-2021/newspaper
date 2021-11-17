@@ -1,15 +1,43 @@
 import { FC } from "react";
 import styled from "styled-components";
 
+interface News {
+  category: any;
+  company: any;
+  confidence: any;
+  content: any;
+  created_at: any;
+  date: any;
+  idx: any;
+  img_url: any;
+  keywords: any;
+  recommend: any;
+  result: any;
+  short_content: any;
+  title: any;
+  updated_at: any;
+  url: any;
+}
+
 interface Props {
   news: {
-    idx: number;
-    title: string;
-    company: string;
-    img: string;
-    content: string;
+    category: any;
+    company: any;
+    confidence: any;
+    content: any;
+    created_at: any;
+    date: any;
+    idx: any;
+    img_url: any;
+    keywords: any;
+    recommend: any;
+    result: any;
+    short_content: any;
+    title: any;
+    updated_at: any;
+    url: any;
   };
-  handleNewsClick: () => void;
+  handleNewsClick: (item: News) => void;
 }
 
 const NewsWrapper = styled.div`
@@ -35,6 +63,14 @@ const Title = styled.div`
 const Article = styled.div`
   position: relative;
   bottom: 1rem;
+  margin-top: 10px;
+  height: 100px;
+  text-align: justify;
+  -ms-overflow-style: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  overflow-y: scroll;
 `;
 const Sub = styled.div`
   display: flex;
@@ -76,19 +112,19 @@ const NewsRows: FC<Props> = ({ news, handleNewsClick }) => {
     <>
       <NewsWrapper
         onClick={() => {
-          handleNewsClick();
+          handleNewsClick(news);
         }}
       >
-        <NewsImg src={news.img} alt="news" />
+        <NewsImg src={news.img_url || news.imgUrl} alt="news" />
         <Content>
           <Title>{news.title}</Title>
           <Article>{news.content}</Article>
           <Sub>
             <Left>
               <Company>{news.company}</Company>
-              <Category>society</Category>
+              <Category>{news.category}</Category>
             </Left>
-            <Date>2021/10/02</Date>
+            <Date>{news.date.split("T")[0]}</Date>
           </Sub>
         </Content>
       </NewsWrapper>

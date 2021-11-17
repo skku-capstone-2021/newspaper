@@ -2,10 +2,13 @@ import { FC, useState, useEffect, useCallback } from "react";
 import styled from "styled-components";
 import { Pagination } from "@material-ui/lab";
 import { Button } from "@material-ui/core";
+import Cookies from "js-cookie";
 import NewsRows from "@/components/Common/NewsRow";
 import Loading from "@/components/Common/Loading";
 import NewsModal from "@/components/Common/NewsModal";
 import KeywordModal from "../KeywordModal";
+import { sendPost } from "@/lib/utils/api";
+import { Oops } from "@/assets/index";
 
 const Wrapper = styled.div`
   width: 100%;
@@ -55,6 +58,17 @@ const Right = styled.div`
   top: 0.5rem;
 `;
 
+const Nodata = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 50vh;
+  flex-direction: column;
+  img {
+    height: 12rem;
+  }
+`;
+
 const MOCK_NEWS = [
   {
     idx: 1,
@@ -86,54 +100,107 @@ const MOCK_NEWS = [
 ];
 
 interface News {
-  idx: number;
-  title: string;
-  company: string;
-  img: string;
-  content: string;
+  category: any;
+  company: any;
+  confidence: any;
+  content: any;
+  created_at: any;
+  date: any;
+  idx: any;
+  img_url: any;
+  keywords: any;
+  recommend: any;
+  result: any;
+  short_content: any;
+  title: any;
+  updated_at: any;
+  url: any;
 }
 
 const My: FC = () => {
   const [news, setNews] = useState<News[]>([]);
   const [page, setPage] = useState<number>(1);
-  const [per, setPer] = useState<number>(4);
-  const [total, setTotal] = useState<number>(100);
+  const [per, setPer] = useState<number>(3);
+  const [total, setTotal] = useState<number>(0);
   const [loading, setLoading] = useState<boolean>(false);
   const [isNewsOpen, SetIsNewsOpen] = useState<boolean>(false);
-  const [currentNewsIdx, setCurrentNewsIdx] = useState<number>(0);
   const [isKeywordModal, SetIsKeywordModal] = useState<boolean>(false);
+  const [currentList, setCurrentList] = useState<News[]>([]);
+  const [currentNews, setCurrentNews] = useState<News>(null);
 
   const [mode, setMode] = useState<
     "view" | "recommend" | "subscribe" | "scrap"
-  >("subscribe");
-
-  const getData = async () => {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve(MOCK_NEWS);
-      }, 1500);
-    });
-  };
+  >("view");
 
   useEffect(() => {
     setLoading(true);
-    getData()
-      .then((data) => {
-        const response = data as News[];
-        setNews(response);
-        setLoading(false);
-      })
-      .catch(() => {});
+    if (mode === "view") {
+      if (Cookies.get("id")) {
+        sendPost("/view/get", { user: Cookies.get("id") }).then((res) => {
+          let articles = [] as News[];
+
+          if (res.data.length) {
+            res.data.forEach((item: any) => {
+              articles.push(item.article);
+            });
+          }
+          setNews(articles);
+          setTotal(articles.length);
+          setCurrentList(
+            articles.slice((page - 1) * per, (page - 1) * per + per)
+          );
+          setLoading(false);
+        });
+      }
+    }
+
+    if (mode === "scrap") {
+      if (Cookies.get("id")) {
+        sendPost("/scrap/get", { user: Cookies.get("id") }).then((res) => {
+          let articles = [] as News[];
+
+          if (res.data.length) {
+            res.data.forEach((item: any) => {
+              articles.push(item.article);
+            });
+          }
+          setNews(articles);
+          setTotal(articles.length);
+          setCurrentList(
+            articles.slice((page - 1) * per, (page - 1) * per + per)
+          );
+          setLoading(false);
+        });
+      }
+    }
+
+    if (mode === "subscribe") {
+    }
+
+    if (mode === "recommend") {
+      // 추후예정
+    }
+
+    // getData()
+    //   .then((data) => {
+    //     const response = data as News[];
+    //     setNews(response);
+    //     setLoading(false);
+    //   })
+    //   .catch(() => {});
   }, [page, mode]);
 
   const handlePageChange = (e: any, v: number) => {
     setPage(v);
   };
 
-  const handleNewsClick = useCallback(() => {
-    SetIsNewsOpen(true);
-    setCurrentNewsIdx(1);
-  }, [isNewsOpen, currentNewsIdx]);
+  const handleNewsClick = useCallback(
+    (item: News) => {
+      SetIsNewsOpen(true);
+      setCurrentNews(item);
+    },
+    [isNewsOpen, setCurrentNews]
+  );
 
   const handleKewordClick = useCallback(() => {
     SetIsKeywordModal(true);
@@ -169,7 +236,7 @@ const My: FC = () => {
           </Title>
         </TitleWrapper>
         <Right>
-          <div>total: 100</div>
+          <div>total: {total}</div>
           {mode === "subscribe" && (
             <Button
               variant="outlined"
@@ -186,13 +253,20 @@ const My: FC = () => {
       ) : (
         <div>
           <NewsWrapper>
-            {news.map((item, index) => (
-              <NewsRows
-                handleNewsClick={handleNewsClick}
-                key={index}
-                news={item}
-              />
-            ))}
+            {currentList.length > 0 &&
+              currentList.map((item, index) => (
+                <NewsRows
+                  handleNewsClick={handleNewsClick}
+                  key={index}
+                  news={item}
+                />
+              ))}
+            {!currentList.length && (
+              <Nodata>
+                <img src={Oops} alt="oops" />
+                <div>No News Data</div>
+              </Nodata>
+            )}
           </NewsWrapper>
         </div>
       )}
@@ -206,7 +280,7 @@ const My: FC = () => {
         />
       </PageWrapper>
       <NewsModal
-        idx={currentNewsIdx}
+        news={currentNews}
         removeModal={removeModal}
         visible={isNewsOpen}
       />

@@ -17,6 +17,14 @@ class ScrapRepository extends Repository<ScrapEntity> {
     const newScrap = await this.save(scrap);
     return newScrap;
   }
+
+  async getScrap(user: any) {
+    const scraps = await this.find({
+      relations: ["article"],
+      where: { user: user },
+    });
+    return scraps;
+  }
 }
 
 export default ScrapRepository;

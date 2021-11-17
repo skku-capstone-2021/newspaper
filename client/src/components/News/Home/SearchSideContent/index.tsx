@@ -94,21 +94,15 @@ const SearchSideContent: FC<Props> = ({ sideBarClose, changeMode }) => {
   };
 
   const handleSearch = () => {
-    // console.log(title);
-    // console.log(startDate);
-    // console.log(endDate);
-    // console.log(newspaper);
-    // console.log(category);
-    // console.log(keywords);
-    // 유효성 검사
-
-    changeMode({
+    sendPost("/article/search", {
       title,
       startDate,
       endDate,
       newspaper,
       category,
-      keywords,
+      keyword: keywords.split(","),
+    }).then((res) => {
+      changeMode(res);
     });
   };
 

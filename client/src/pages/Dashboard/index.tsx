@@ -15,7 +15,6 @@ const Dashboard: FC<Props> = ({ date }) => {
   useEffect(() => {
     setLoading(true);
     setTimeout(() => {
-      console.log("로딩~");
       setLoading(false);
     }, 1500);
   }, []);

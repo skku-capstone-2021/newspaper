@@ -10,79 +10,53 @@ interface Props {
 }
 
 interface News {
-  idx: number;
-  title: string;
-  company: string;
-  img: string;
-  content: string;
+  category: any;
+  company: any;
+  confidence: any;
+  content: any;
+  created_at: any;
+  date: any;
+  idx: any;
+  img_url: any;
+  keywords: any;
+  recommend: any;
+  result: any;
+  short_content: any;
+  title: any;
+  updated_at: any;
+  url: any;
 }
-
-const MOCK_NEWS = [
-  {
-    idx: 1,
-    title:
-      'Critic and programmer Geoff Andrew remembers reviewing the film for Time Out when it first came out. "I was not alone in being highly impressed ',
-    company: "ABC news",
-    img: "https://user-images.githubusercontent.com/47776356/134925750-2122745e-c554-4de6-abc1-bd57fae840c7.jpeg",
-    content:
-      "content content content content content content content content content content content content content content content content content content content content content content content content content content content content",
-  },
-  {
-    idx: 2,
-    title:
-      'Critic and programmer Geoff Andrew remembers reviewing the film for Time Out when it first came out. "I was not alone in being highly impressed ',
-    company: "ABC news",
-    img: "https://user-images.githubusercontent.com/47776356/134925780-c72a7c33-c2bc-46e9-8e80-4ea1f6730f09.jpeg",
-    content:
-      "content content content content content content content content content content content content content content content content content content content content content content content content content content content content",
-  },
-  {
-    idx: 3,
-    title:
-      'Critic and programmer Geoff Andrew remembers reviewing the film for Time Out when it first came out. "I was not alone in being highly impressed ',
-    company: "ABC news",
-    img: "https://user-images.githubusercontent.com/47776356/134925803-def90275-df33-4782-93c0-7b9757379613.jpeg",
-    content:
-      "content content content content content content content content content content content content content content content content content content content content content content content content content content content content",
-  },
-];
 
 const Search: FC<Props> = ({ searchData }) => {
   const [news, setNews] = useState<News[]>([]);
   const [page, setPage] = useState<number>(1);
-  const [per, setPer] = useState<number>(4);
-  const [total, setTotal] = useState<number>(100);
+  const [per, setPer] = useState<number>(3);
+  const [total, setTotal] = useState<number>(0);
   const [loading, setLoading] = useState<boolean>(false);
   const [isNewsOpen, SetIsNewsOpen] = useState<boolean>(false);
-  const [currentNewsIdx, setCurrentNewsIdx] = useState<number>(0);
-
-  const getData = async () => {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve(MOCK_NEWS);
-      }, 1500);
-    });
-  };
+  const [currentList, setCurrentList] = useState<News[]>([]);
+  const [currentNews, setCurrentNews] = useState<News>(null);
 
   useEffect(() => {
-    setLoading(true);
-    getData()
-      .then((data) => {
-        const response = data as News[];
-        setNews(response);
-        setLoading(false);
-      })
-      .catch(() => {});
-  }, [page]);
+    if (searchData.data) {
+      const { articles } = searchData.data;
+      setNews(articles);
+      setTotal(articles.length);
+      setCurrentList(articles.slice((page - 1) * per, (page - 1) * per + per));
+    }
+  }, [searchData, page]);
 
   const handlePageChange = (e: any, v: number) => {
     setPage(v);
   };
 
-  const handleNewsClick = useCallback(() => {
-    SetIsNewsOpen(true);
-    setCurrentNewsIdx(1);
-  }, [isNewsOpen, currentNewsIdx]);
+  const handleNewsClick = useCallback(
+    (item: News) => {
+      SetIsNewsOpen(true);
+      setCurrentNews(item);
+    },
+    [isNewsOpen, setCurrentNews]
+  );
 
   const removeModal = () => {
     SetIsNewsOpen(false);
@@ -102,13 +76,14 @@ const Search: FC<Props> = ({ searchData }) => {
             <div>total: {total}</div>
           </TitleWrapper>
           <NewsWrapper>
-            {news.map((item, index) => (
-              <NewsRows
-                handleNewsClick={handleNewsClick}
-                key={index}
-                news={item}
-              />
-            ))}
+            {currentList.length &&
+              currentList.map((item, index) => (
+                <NewsRows
+                  handleNewsClick={handleNewsClick}
+                  key={index}
+                  news={item}
+                />
+              ))}
           </NewsWrapper>
           <PageWrapper>
             <Pagination
@@ -120,7 +95,7 @@ const Search: FC<Props> = ({ searchData }) => {
             />
           </PageWrapper>
           <NewsModal
-            idx={currentNewsIdx}
+            news={currentNews}
             removeModal={removeModal}
             visible={isNewsOpen}
           />

@@ -45,15 +45,38 @@ interface Props {
 
 const NewsContent: FC<Props> = ({ newsItem }) => {
   const [isEntire, setIsEntire] = useState<boolean>(false);
-  const parsing = (keystr: string) => {
-    let sliced = keystr.slice(1, keystr.length - 1);
-    sliced = sliced.replace(/'/gi, "");
-    sliced = sliced.replace(/ /gi, "");
-    return sliced.split(",").slice(0, 4);
+
+  const parsing = (keystr: any) => {
+    if (typeof keystr === "string") {
+      let sliced = keystr.slice(1, keystr.length - 1);
+      sliced = sliced.replace(/'/gi, "");
+      sliced = sliced.replace(/ /gi, "");
+      return sliced.split(",").slice(0, 4);
+    }
+
+    if (keystr[0][0] === "[") {
+      for (let i = 0; i < keystr.length; i += 1) {
+        if (i === 0) {
+          keystr[i] = keystr[i].slice(2, keystr[i].length - 1);
+        } else if (i === keystr.length - 1) {
+          keystr[i] = keystr[i].slice(2, keystr[i].length - 2);
+        } else {
+          keystr[i] = keystr[i].slice(2, keystr[i].length - 1);
+        }
+      }
+      return keystr.slice(0, 4);
+    }
+    return keystr.slice(0, 4);
   };
 
   useEffect(() => {
     setIsEntire(false);
+    if (Cookies.get("id")) {
+      sendPost("/view/add", {
+        article: newsItem.idx,
+        user: Cookies.get("id"),
+      });
+    }
   }, [newsItem]);
 
   const handleScrap = () => {
@@ -106,11 +129,11 @@ const NewsContent: FC<Props> = ({ newsItem }) => {
         </Flex>
       </Header>
       <Horizon />
-      <MainImg src={newsItem.img_url} />
+      <MainImg src={newsItem.img_url || newsItem.imgUrl} />
       <ContentWrapper>
         {!isEntire ? (
           <div>
-            <Content>{newsItem.short_content}</Content>
+            <Content>{newsItem.short_content || newsItem.shortContent}</Content>
             <More
               onClick={() => {
                 setIsEntire(true);

@@ -37,3 +37,29 @@ export const getInfo = async (
     return next(e);
   }
 };
+
+export const search = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { title, startDate, endDate, newspaper, category, keyword } =
+      req.body;
+
+    const articleServiceInstance = Container.get(ArticleService);
+
+    const ret = await articleServiceInstance.search(
+      title,
+      startDate,
+      endDate,
+      newspaper,
+      category,
+      keyword
+    );
+
+    return res.json(ret);
+  } catch (e) {
+    return next(e);
+  }
+};

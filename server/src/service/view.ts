@@ -1,62 +1,62 @@
 import { Service } from "typedi";
 import { InjectRepository } from "typeorm-typedi-extensions";
-import ScrapRepository from "@/repository/scrap";
+import ViewRepository from "@/repository/view";
 import UserRepository from "@/repository/user";
 import ArticleRepository from "@/repository/article";
-
 import ErrorResponse from "@/utils/errorResponse";
 import { unable } from "@/constants/error";
+import view from "@/api/routes/view";
 @Service()
 class ScrapService {
-  private scrapRepository: ScrapRepository;
+  private viewRepository: ViewRepository;
 
   private userRepository: UserRepository;
 
   private articleRepository: ArticleRepository;
 
   constructor(
-    @InjectRepository(ScrapRepository) scrapRepository: ScrapRepository,
+    @InjectRepository(ViewRepository) viewRepository: ViewRepository,
     @InjectRepository(UserRepository) userRepository: UserRepository,
     @InjectRepository(ArticleRepository) articleRepository: ArticleRepository
   ) {
-    this.scrapRepository = scrapRepository;
+    this.viewRepository = viewRepository;
     this.userRepository = userRepository;
     this.articleRepository = articleRepository;
   }
 
-  async addScrap({ user, article }: { user: number; article: number }) {
+  async addView({ user, article }: { user: number; article: number }) {
     try {
       const foundUser = await this.userRepository.findByIdx(user);
       const foundArticle = await this.articleRepository.findByIdx(article);
 
-      const existScrap = await this.scrapRepository.findScrap(
+      const existView = await this.viewRepository.findView(
         foundUser,
         foundArticle
       );
 
-      if (existScrap) {
-        throw new Error("already scraped");
+      if (existView) {
+        throw new Error("already checked");
       }
 
-      const createdScrap = await this.scrapRepository.createScrap(
+      const createdView = await this.viewRepository.createView(
         foundUser,
         foundArticle
       );
 
-      const { idx, createdAt, updatedAt } = createdScrap;
+      const { idx, createdAt, updatedAt } = createdView;
       return { idx, createdAt, updatedAt };
     } catch (e: any) {
       return { message: e.message };
     }
   }
 
-  async getScrap({ user }: { user: number }) {
+  async getView({ user }: { user: number }) {
     try {
       const foundUser = await this.userRepository.findByIdx(user);
 
-      const scraps = await this.scrapRepository.getScrap(foundUser);
+      const views = await this.viewRepository.getView(foundUser);
 
-      return scraps;
+      return views;
     } catch (e: any) {
       return { message: e.message };
     }
