@@ -1,11 +1,13 @@
 import { FC, useRef, useEffect, useState, useCallback } from "react";
 import { TextField } from "@material-ui/core";
 import styled from "styled-components";
+import Cookies from "js-cookie";
 import Loading from "@/components/Common/Loading";
 import useOnClickOutside from "@/lib/hooks/useOnClickOutside";
 import { ModalOverlay, ModalWrapper, ModalInner } from "./index.style";
 import { Edit, Cancle } from "@/assets";
 import { alert } from "@/lib/utils/alert";
+import { sendPost } from "@/lib/utils/api";
 
 const Wrapper = styled.div`
   border: 0.5px solid #999999;
@@ -58,10 +60,14 @@ const KeywordModal: FC<Props> = ({ visible, removeModal }) => {
 
   useEffect(() => {
     setLoading(true);
-    setTimeout(() => {
-      setKeywords(["keyword1", "keyword2", "keyword3", "keyword4", "keyword5"]);
+    sendPost("/user/getKeyword", { id: Cookies.get("id") }).then((res) => {
+      if (!res.data) {
+        setKeywords([]);
+      } else {
+        setKeywords(res.data.subscribe);
+      }
       setLoading(false);
-    }, 1500);
+    });
   }, []);
 
   useEffect(() => {
@@ -81,6 +87,10 @@ const KeywordModal: FC<Props> = ({ visible, removeModal }) => {
         if (keywords.includes(input)) {
           alert("Already Exist");
         } else {
+          sendPost("/user/saveKeywords", {
+            id: Cookies.get("id"),
+            keywords: [...keywords, input],
+          });
           setKeywords([...keywords, input]);
           setInput("");
         }
@@ -94,9 +104,12 @@ const KeywordModal: FC<Props> = ({ visible, removeModal }) => {
       const idx = keywords.findIndex((i) => {
         return i === item;
       });
-
       const newKeywords = [...keywords];
       newKeywords.splice(idx, 1);
+      sendPost("/user/saveKeywords", {
+        id: Cookies.get("id"),
+        keywords: newKeywords,
+      });
       setKeywords(newKeywords);
     },
     [keywords]
@@ -121,7 +134,8 @@ const KeywordModal: FC<Props> = ({ visible, removeModal }) => {
                 value={input}
               />
               <Wrapper>
-                {keywords.length &&
+                {keywords &&
+                  keywords.length > 0 &&
                   keywords.map((item, index) => (
                     <Keyword key={index}>
                       <Title>{item}</Title>

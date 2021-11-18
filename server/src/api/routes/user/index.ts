@@ -1,5 +1,10 @@
 import { Router } from "express";
-import { handleCreateUser, handleSignin } from "./controller";
+import {
+  handleCreateUser,
+  handleSignin,
+  getKeyword,
+  saveKeywords,
+} from "./controller";
 
 const usersRouter = Router();
 
@@ -9,4 +14,8 @@ export default (router: Router) => {
   usersRouter.post("/signup", handleCreateUser);
 
   usersRouter.post("/signin", handleSignin);
+
+  usersRouter.post("/getKeyword", getKeyword);
+
+  usersRouter.post("/saveKeywords", saveKeywords);
 };

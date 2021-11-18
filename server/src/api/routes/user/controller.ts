@@ -43,3 +43,44 @@ export const handleSignin = async (
     return next(e);
   }
 };
+
+export const getKeyword = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { id } = req.body;
+
+    const userServiceInstance = Container.get(UsersService);
+
+    const ret = await userServiceInstance.getKeyword({
+      id,
+    } as any);
+
+    return res.json(ret);
+  } catch (e) {
+    return next(e);
+  }
+};
+
+export const saveKeywords = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { keywords, id } = req.body;
+
+    const userServiceInstance = Container.get(UsersService);
+
+    const ret = await userServiceInstance.saveKeywords({
+      id,
+      keywords,
+    } as any);
+
+    return res.json(ret);
+  } catch (e) {
+    return next(e);
+  }
+};

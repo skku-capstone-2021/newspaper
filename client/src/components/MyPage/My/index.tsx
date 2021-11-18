@@ -69,36 +69,6 @@ const Nodata = styled.div`
   }
 `;
 
-const MOCK_NEWS = [
-  {
-    idx: 1,
-    title:
-      'Critic and programmer Geoff Andrew remembers reviewing the film for Time Out when it first came out. "I was not alone in being highly impressed ',
-    company: "ABC news",
-    img: "https://user-images.githubusercontent.com/47776356/134925750-2122745e-c554-4de6-abc1-bd57fae840c7.jpeg",
-    content:
-      "content content content content content content content content content content content content content content content content content content content content content content content content content content content content",
-  },
-  {
-    idx: 2,
-    title:
-      'Critic and programmer Geoff Andrew remembers reviewing the film for Time Out when it first came out. "I was not alone in being highly impressed ',
-    company: "ABC news",
-    img: "https://user-images.githubusercontent.com/47776356/134925780-c72a7c33-c2bc-46e9-8e80-4ea1f6730f09.jpeg",
-    content:
-      "content content content content content content content content content content content content content content content content content content content content content content content content content content content content",
-  },
-  {
-    idx: 3,
-    title:
-      'Critic and programmer Geoff Andrew remembers reviewing the film for Time Out when it first came out. "I was not alone in being highly impressed ',
-    company: "ABC news",
-    img: "https://user-images.githubusercontent.com/47776356/134925803-def90275-df33-4782-93c0-7b9757379613.jpeg",
-    content:
-      "content content content content content content content content content content content content content content content content content content content content content content content content content content content content",
-  },
-];
-
 interface News {
   category: any;
   company: any;
@@ -175,6 +145,24 @@ const My: FC = () => {
     }
 
     if (mode === "subscribe") {
+      if (Cookies.get("id")) {
+        sendPost("/article/subscribe", { user: Cookies.get("id") }).then(
+          (res) => {
+            let articles = [] as News[];
+            if (res.data.articles.length) {
+              res.data.articles.forEach((item: any) => {
+                articles.push(item);
+              });
+            }
+            setNews(articles);
+            setTotal(articles.length);
+            setCurrentList(
+              articles.slice((page - 1) * per, (page - 1) * per + per)
+            );
+            setLoading(false);
+          }
+        );
+      }
     }
 
     if (mode === "recommend") {

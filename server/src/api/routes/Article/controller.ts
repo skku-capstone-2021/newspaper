@@ -63,3 +63,21 @@ export const search = async (
     return next(e);
   }
 };
+
+export const subscribe = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { user } = req.body;
+
+    const articleServiceInstance = Container.get(ArticleService);
+
+    const ret = await articleServiceInstance.subscribe(user);
+
+    return res.json(ret);
+  } catch (e) {
+    return next(e);
+  }
+};

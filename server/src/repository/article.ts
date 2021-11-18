@@ -83,6 +83,25 @@ class ArticleRepository extends Repository<ArticleEntity> {
     const articles = getManager().query(myquery);
     return articles;
   }
+
+  async getSubscribe(keyword: string[]) {
+    if (!keyword.length) {
+      return [];
+    }
+
+    let myquery = `select * from article where `;
+
+    keyword.forEach((item, index) => {
+      if (index !== 0) {
+        myquery += ` OR keywords like '%${item}%'`;
+      } else {
+        myquery += `keywords like '%${item}%'`;
+      }
+    });
+
+    const articles = getManager().query(myquery);
+    return articles;
+  }
 }
 
 export default ArticleRepository;

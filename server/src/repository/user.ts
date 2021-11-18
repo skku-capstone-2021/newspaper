@@ -20,6 +20,20 @@ class UserRepository extends Repository<UserEntity> {
     const user = await this.findOne({ where: { idx } });
     return user;
   }
+
+  async getKeyword(idx: number) {
+    const keywords = await this.findOne({
+      select: ["subscribe"],
+      where: { idx },
+    });
+    return keywords;
+  }
+
+  async saveKeywords(user: UserEntity, keywords: string[]) {
+    user.subscribe = keywords;
+    await this.save(user);
+    return keywords;
+  }
 }
 
 export default UserRepository;

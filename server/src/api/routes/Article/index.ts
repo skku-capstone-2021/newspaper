@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { getMain, getInfo, search } from "./controller";
+import { getMain, getInfo, search, subscribe } from "./controller";
 
 const articleRouter = Router();
 
@@ -11,4 +11,6 @@ export default (router: Router) => {
   articleRouter.post("/info", getInfo);
 
   articleRouter.post("/search", search);
+
+  articleRouter.post("/subscribe", subscribe);
 };

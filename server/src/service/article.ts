@@ -1,16 +1,21 @@
 import { Service } from "typedi";
 import { InjectRepository } from "typeorm-typedi-extensions";
 import ArticleRepository from "@/repository/article";
+import UserRepository from "@/repository/user";
 import ErrorResponse from "@/utils/errorResponse";
 import { unable } from "@/constants/error";
 @Service()
 class ArticleService {
   private articleRepository: ArticleRepository;
 
+  private userRepository: UserRepository;
+
   constructor(
-    @InjectRepository(ArticleRepository) articleRepository: ArticleRepository
+    @InjectRepository(ArticleRepository) articleRepository: ArticleRepository,
+    @InjectRepository(UserRepository) userRepository: UserRepository
   ) {
     this.articleRepository = articleRepository;
+    this.userRepository = userRepository;
   }
 
   async getMain({ date }: { date: string }) {
@@ -97,6 +102,20 @@ class ArticleService {
       );
 
       articles = articles.filter((item: news) => item.img_url !== null);
+
+      return { articles };
+    } catch (e: any) {
+      return { message: e.message };
+    }
+  }
+
+  async subscribe(user: string) {
+    try {
+      const us = await this.userRepository.getKeyword(Number(user));
+      let articles = [];
+      if (us) {
+        articles = await this.articleRepository.getSubscribe(us.subscribe);
+      }
 
       return { articles };
     } catch (e: any) {

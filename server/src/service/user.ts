@@ -51,6 +51,30 @@ class UsersService {
       return { message: e.message };
     }
   }
+
+  async getKeyword({ id }: { id: string }) {
+    try {
+      const keywords = await this.userRepository.getKeyword(Number(id));
+
+      return keywords;
+    } catch (e: any) {
+      return { message: e.message };
+    }
+  }
+
+  async saveKeywords({ id, keywords }: { id: string; keywords: string[] }) {
+    try {
+      const existUser = await this.userRepository.findByIdx(Number(id));
+      if (!existUser) {
+        throw new Error("Id not exist");
+      }
+      const ret = await this.userRepository.saveKeywords(existUser, keywords);
+
+      return ret;
+    } catch (e: any) {
+      return { message: e.message };
+    }
+  }
 }
 
 export default UsersService;

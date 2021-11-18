@@ -17,6 +17,9 @@ class UserEntity {
   @Column("text")
   password: string;
 
+  @Column("simple-array", { nullable: true })
+  subscribe: string[];
+
   @CreateDateColumn({ type: "timestamp" })
   createdAt: Date;
 

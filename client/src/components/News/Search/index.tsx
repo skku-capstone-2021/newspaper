@@ -1,9 +1,16 @@
 import { FC, useEffect, useState, useCallback } from "react";
 import { Pagination } from "@material-ui/lab";
 import Loading from "@/components/Common/Loading";
-import { TitleWrapper, Title, NewsWrapper, PageWrapper } from "./index.style";
+import {
+  TitleWrapper,
+  Title,
+  NewsWrapper,
+  PageWrapper,
+  Nodata,
+} from "./index.style";
 import NewsRows from "@/components/Common/NewsRow";
 import NewsModal from "@/components/Common/NewsModal";
+import { Oops } from "@/assets/index";
 
 interface Props {
   searchData: any;
@@ -76,7 +83,7 @@ const Search: FC<Props> = ({ searchData }) => {
             <div>total: {total}</div>
           </TitleWrapper>
           <NewsWrapper>
-            {currentList.length &&
+            {currentList.length > 0 &&
               currentList.map((item, index) => (
                 <NewsRows
                   handleNewsClick={handleNewsClick}
@@ -84,6 +91,13 @@ const Search: FC<Props> = ({ searchData }) => {
                   news={item}
                 />
               ))}
+
+            {!currentList.length && (
+              <Nodata>
+                <img src={Oops} alt="oops" />
+                <div>No News Data</div>
+              </Nodata>
+            )}
           </NewsWrapper>
           <PageWrapper>
             <Pagination

@@ -73,3 +73,14 @@ export const PageWrapper = styled.div`
   display: flex;
   justify-content: center;
 `;
+
+export const Nodata = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 50vh;
+  flex-direction: column;
+  img {
+    height: 12rem;
+  }
+`;
