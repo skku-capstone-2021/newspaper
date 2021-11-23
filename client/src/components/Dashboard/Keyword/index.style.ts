@@ -22,3 +22,13 @@ export const WordCloud = styled.div`
     text-align: center;
   }
 `;
+
+export const Nodata = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  font-size: 2rem;
+`;

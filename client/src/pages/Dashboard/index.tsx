@@ -26,11 +26,11 @@ const Dashboard: FC<Props> = ({ date }) => {
       ) : (
         <>
           <Top>
-            <Keyword date="todays date" />
+            <Keyword date={date} />
           </Top>
           <Bottom>
-            <Category date="todays date" />
-            <Rate date="todays date" />
+            <Category date={date} />
+            <Rate date={date} />
           </Bottom>
         </>
       )}

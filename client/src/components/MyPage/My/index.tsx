@@ -166,7 +166,18 @@ const My: FC = () => {
     }
 
     if (mode === "recommend") {
-      // 추후예정
+      if (Cookies.get("id")) {
+        sendPost("/view/get", { user: Cookies.get("id") }).then((res) => {
+          let articles = [] as News[];
+
+          if (res.data.length) {
+            res.data.forEach((item: any) => {
+              articles.push(item.article);
+            });
+          }
+          console.log(articles);
+        });
+      }
     }
 
     // getData()
@@ -224,7 +235,7 @@ const My: FC = () => {
           </Title>
         </TitleWrapper>
         <Right>
-          <div>total: {total}</div>
+          <div>total: {total || 0}</div>
           {mode === "subscribe" && (
             <Button
               variant="outlined"

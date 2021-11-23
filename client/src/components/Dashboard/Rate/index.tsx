@@ -3,8 +3,16 @@ import { Doughnut } from "react-chartjs-2";
 import { Wrapper, Title, Chart } from "./index.style";
 
 interface Props {
-  date: string;
+  date: Date;
 }
+
+const getToday = (date: Date) => {
+  let year = date.getFullYear();
+  let month = `0${1 + date.getMonth()}`.slice(-2);
+  let day = `0${date.getDate()}`.slice(-2);
+
+  return `${year}-${month}-${day}`;
+};
 
 const Rate: FC<Props> = () => {
   return (
