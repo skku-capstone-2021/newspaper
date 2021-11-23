@@ -39,3 +39,22 @@ export const getView = async (
     return next(e);
   }
 };
+
+export const recommend = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { user } = req.body;
+
+    const viewServiceInstance = Container.get(ViewService);
+    const ret = await viewServiceInstance.recommend({
+      user: Number(user),
+    } as any);
+
+    return res.json(ret);
+  } catch (e) {
+    return next(e);
+  }
+};

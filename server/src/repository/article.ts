@@ -1,5 +1,6 @@
 import { EntityRepository, Repository, getManager } from "typeorm";
 import ArticleEntity from "@/entity/article";
+import article from "@/api/routes/article";
 
 @EntityRepository(ArticleEntity)
 class ArticleRepository extends Repository<ArticleEntity> {
@@ -101,6 +102,36 @@ class ArticleRepository extends Repository<ArticleEntity> {
 
     const articles = getManager().query(myquery);
     return articles;
+  }
+
+  async getRecommend(articles: string[]) {
+    const temp = [] as any;
+    articles.forEach((item) => {
+      temp.push({ idx: item });
+    });
+
+    const recommends = await this.find({
+      select: ["recommend"],
+      where: temp,
+    });
+    const ret = [] as any;
+    recommends.forEach((item) => {
+      ret.push(item.recommend);
+    });
+    return ret;
+  }
+
+  async findall(articles: number[]) {
+    const temp = [] as any;
+    articles.forEach((item) => {
+      temp.push({ idx: item });
+    });
+
+    const result = await this.find({
+      where: temp,
+    });
+
+    return result;
   }
 }
 

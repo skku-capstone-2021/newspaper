@@ -167,15 +167,20 @@ const My: FC = () => {
 
     if (mode === "recommend") {
       if (Cookies.get("id")) {
-        sendPost("/view/get", { user: Cookies.get("id") }).then((res) => {
+        sendPost("/view/recommend", { user: Cookies.get("id") }).then((res) => {
           let articles = [] as News[];
 
           if (res.data.length) {
             res.data.forEach((item: any) => {
-              articles.push(item.article);
+              articles.push(item);
             });
           }
-          console.log(articles);
+          setNews(articles);
+          setTotal(articles.length);
+          setCurrentList(
+            articles.slice((page - 1) * per, (page - 1) * per + per)
+          );
+          setLoading(false);
         });
       }
     }
