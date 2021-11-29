@@ -1,0 +1,7 @@
+numpy==1.16.6
+scipy==1.2.3
+pandas==0.24.2
+scikit-leaen==0.20.4
+xgboost==0.82
+gensim==3.8.0
+nltk==3.4.5
