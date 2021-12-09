@@ -186,7 +186,7 @@ def train():
     # df_output = pd.DataFrame()   ##### 여기 output 바꾸기 
     # df_output['Headline'] = stances['Headline']
     # df_output['Body ID'] = stances['Body ID']
-    df_output['Stance'] = predicted
+    df_output['stance'] = predicted
     # df_output['prob_0'] = pred_prob_y[:, 0]
     # df_output['prob_1'] = pred_prob_y[:, 1]
     # df_output['prob_2'] = pred_prob_y[:, 2]
@@ -197,7 +197,7 @@ def train():
     df_output.to_csv("news.csv", encoding='utf-8', index=False)
 
     print df_output
-    print Counter(df_output['Stance'])
+    print Counter(df_output['stance'])
     
     #pred_train = bst.predict(dtrain).reshape(data_x.shape[0], 4)
     #pred_t = np.argmax(pred_train, axis=1)
