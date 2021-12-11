@@ -41,6 +41,9 @@ class ArticleEntity {
   @Column("text", { nullable: true })
   result: string;
 
+  @Column("text", { nullable: true })
+  stance: string;
+
   @Column("simple-array", { nullable: true })
   recommend: string[];
 

@@ -91,3 +91,15 @@ export const More = styled.div`
   margin-top: 1rem;
   color: #999999;
 `;
+
+export const Confidence = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-cotent: center;
+  align-items: center;
+  gap: 0.3rem;
+`;
+
+export const Con = styled.div`
+  font-size: 0.7rem;
+`;

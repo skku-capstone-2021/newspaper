@@ -1,7 +1,7 @@
 import { FC, useState, useEffect } from "react";
 import { Button } from "@material-ui/core";
 import Cookies from "js-cookie";
-import { Good } from "@/assets";
+import { Good, Bad } from "@/assets";
 import { sendPost } from "@/lib/utils/api";
 import { alert } from "@/lib/utils/alert";
 
@@ -21,6 +21,8 @@ import {
   ContentWrapper,
   Content,
   More,
+  Confidence,
+  Con,
 } from "./index.style";
 
 interface Props {
@@ -100,7 +102,17 @@ const NewsContent: FC<Props> = ({ newsItem }) => {
             <NewsPaper>{newsItem.company}</NewsPaper>
             <Title>{newsItem.title}</Title>
           </div>
-          <Level src={Good} />
+          <Confidence>
+            {newsItem.result === "REAL" ? (
+              <Level src={Good} />
+            ) : (
+              <Level src={Bad} />
+            )}
+            <Con>
+              <div>confidence</div>
+              <div>{newsItem.confidence}</div>
+            </Con>
+          </Confidence>
         </Flex>
         <Flex>
           <Keywords>
@@ -115,7 +127,7 @@ const NewsContent: FC<Props> = ({ newsItem }) => {
             {newsItem.url && (
               <Button variant="outlined" color="primary">
                 <a href={`${newsItem.url}`}>
-                  <div>original</div>
+                  <div>Link</div>
                 </a>
               </Button>
             )}
