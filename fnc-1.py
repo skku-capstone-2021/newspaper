@@ -18,7 +18,7 @@ os.system('pip install -r ./fnc-1/requirements.txt')
 
 # pretrained word2vec 다운
 os.system('wget -c https://s3.amazonaws.com/dl4j-distribution/GoogleNews-vectors-negative300.bin.gz -O ./fnc-1/GoogleNews-vectors-negative300.bin.gz')
-os.system('!gzip -dc ./fnc-1/GoogleNews-vectors-negative300.bin.gz >> ./fnc-1/tree_model/GoogleNews-vectors-negative300.bin')
+os.system('gzip -dc ./fnc-1/GoogleNews-vectors-negative300.bin.gz >> ./fnc-1/tree_model/GoogleNews-vectors-negative300.bin')
 
 # pickle 파일 생성
 os.system('python ./fnc-1/tree_model/generateFeatures.py')
