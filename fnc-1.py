@@ -22,10 +22,6 @@ os.system('gzip -dc ./fnc-1/GoogleNews-vectors-negative300.bin.gz >> ./fnc-1/tre
 
 # pickle 파일 생성
 os.system('python ./fnc-1/tree_model/generateFeatures.py')
-# a = os.popen('python2.7 ./fnc-1/tree_model/generateFeatures.py').read()
-# print(a)
 
-# test 결
+# evaluation 결과 
 os.system('python ./fnc-1/tree_model/xgb_train_cvBodyId.py')
-# b = os.popen('python2.7 ./fnc-1/tree_model/xgb_train_cvBodyId.py').read()
-# print(b)
