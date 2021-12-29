@@ -1,6 +1,10 @@
 # 시연 영상
 https://www.youtube.com/watch?v=EcoatjwxnFA
 
+# 디자인
+
+https://www.figma.com/file/lImReIF3WCqdnEGKJ9VOs1/prototype?node-id=3%3A2
+
 # 실행 순서
 
 ## 1. 수경: 뉴스 데이터 가져오기
