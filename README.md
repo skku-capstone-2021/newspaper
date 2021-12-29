@@ -1,3 +1,6 @@
+# 시연 영상
+https://www.youtube.com/watch?v=EcoatjwxnFA
+
 # 실행 순서
 
 ## 1. 수경: 뉴스 데이터 가져오기
